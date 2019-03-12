@@ -7,7 +7,7 @@ import SuperQuant as SQ
 '''
 普通均线突破策略
 '''
-
+pass
 
 class strategy_main():
     def __init__(self,trading_type,):
