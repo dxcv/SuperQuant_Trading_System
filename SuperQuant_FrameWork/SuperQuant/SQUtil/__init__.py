@@ -92,4 +92,5 @@ from SuperQuant.SQUtil.SQDateTools import (
     SQ_util_add_months, SQ_util_getBetweenMonth
 )
 
-
+# 爬虫工具
+from SuperQuant.SQUtil.SQCrawler import (SQ_Crawler_lxml)

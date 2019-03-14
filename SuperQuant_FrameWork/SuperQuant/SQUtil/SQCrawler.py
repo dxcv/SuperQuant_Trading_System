@@ -9,6 +9,8 @@ import urllib
 import lxml
 import random
 import execjs
+import json
+import requests
 
 user_agent_list = [
                 "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
@@ -86,7 +88,7 @@ user_agent_list = [
                 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; WOW64; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; InfoPath.2; .NET CLR 3.5.30729; .NET CLR 3.0.30618; .NET CLR 1.1.4322)',
                ]
 
-class Crawler_lxml_urlib():
+class SQ_Crawler_lxml():
     def __init__(self,user_agent_list = user_agent_list):
         '''
         初始化请求头列表，模拟不同的浏览器来访问网站，防止被封杀
@@ -104,7 +106,9 @@ class Crawler_lxml_urlib():
                                         'cookie_tool_name':None,
                                         'cookie_head':None
                                         },
-                    cookie_name = False
+                    cookie_name = False,
+                    types = 'requests',
+                    requests_type = 'get'
                  ):
         '''
         提取html，
@@ -128,23 +132,55 @@ class Crawler_lxml_urlib():
         self.auto_UserAgent = auto_UserAgent
         self.auto_cookie_params = auto_cookie_params
         self.cookie_name = cookie_name
-        
-        if Referer: headers['Referer'] = Referer
-        if auto_UserAgent: headers['User-Agent'] = random.choice(self.user_agent_list)
+        self.types = types
+    
+        if Referer: self.headers['Referer'] = Referer
+        if auto_UserAgent: self.headers['User-Agent'] = random.choice(self.user_agent_list)
         if auto_cookie_params.get('auto_cookie'): 
             self.adv_cookie_js(cookie_tool_name = auto_cookie_params.get('cookie_tool_name'),
                                cookie_head = auto_cookie_params.get('cookie_head'))
         if cookie_name: self.headers['Cookie'] = cookie_name
-
-        self.req = urllib.request.Request(self.url, self.data, self.headers)
-        self.response = urllib.request.urlopen(self.req)
-        try:
-            self.html = lxml.etree.HTML(self.response.read()) 
-        except:
-            self.html = lxml.etree.HTML(self.response.read(),encoding='gbk') 
+    
+        if types == 'urllib':
+            self.req = urllib.request.Request(self.url, self.data, self.headers)
+            self.response = urllib.request.urlopen(self.req)
+            try:
+                self.html = lxml.etree.HTML(self.response.read()) 
+            except:
+                self.html = lxml.etree.HTML(self.response.read(),encoding='gbk') 
+        elif types == 'requests':
+            self.requests_type = requests_type
+            if requests_type == 'get':
+                self.req = requests.get(url = self.url, headers = self.headers)
+            elif requests_type == 'post':
+                self.req = requests.get(url = self.url,data = self.data, headers = self.headers)
+            try:
+                self.req.encoding = 'utf-8'
+            except: pass
             
-    def get_data(self,xpath):
-        return self.html.xpath(xpath)
+            
+    def get_js(self):
+        if self.types == 'urllib':
+            return self.response.read()
+        elif self.types == 'requests': 
+            return self.req.text
+        
+    def get_data(self,xpath,encode=False):
+        if self.types == 'urllib':
+            return self.html.xpath(xpath)
+    
+        elif self.types == 'requests':
+            self.html = lxml.etree.HTML(self.req.content) 
+            result = self.html.xpath(xpath)
+            if len(result) == 0:
+                self.html = lxml.etree.HTML(self.req.text) 
+                result = self.html.xpath(xpath)
+            if encode:
+                result = list(map(lambda x:x.encode("latin1").decode("gbk"),self.html.xpath(xpath)))
+            else:
+                result = self.html.xpath(xpath)
+        return result
+    
     
     def adv_cookie_js(cookie_tool_name = None,
                       cookie_head = None):
@@ -165,76 +201,13 @@ class Crawler_lxml_urlib():
         self.ctx = execjs.compile(js)
         self.cookie_tool_name = cookie_tool_name
         
-CLU = Crawler_lxml_urlib()
-url = 'http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?cb=jQuery11240021761038200876492_1552451214418&type=CT&token=4f1862fc3b5e77c150a2b985b12db0fd&sty=FPGBKI&js=({data:[(x)],recordsFiltered:(tot)})&cmd=C._BKGN&st=(ChangePercent)&sr=-1&p=1&ps=20&_=1552451214465'
-url = 'http://quote.eastmoney.com/center/boardlist.html#concept_board'
-http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?cb=jQuery11240021761038200876492_1552451214418&type=CT&token=4f1862fc3b5e77c150a2b985b12db0fd&sty=FPGBKI&js=({data:[(x)],recordsFiltered:(tot)})&cmd=C._BKGN&st=(ChangePercent)&sr=-1&p=7&ps=20&_=1552451214465
-http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?cb=jQuery1124016796627159854138_1552455860140&type=CT&token=4f1862fc3b5e77c150a2b985b12db0fd&sty=FPGBKI&js=({data:[(x)],recordsFiltered:(tot)})&cmd=C._BKGN&st=(ChangePercent)&sr=-1&p=7&ps=20&_=1552455860177
-http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?cb=jQuery112406747484424972561_1552456308725&type=CT&token=4f1862fc3b5e77c150a2b985b12db0fd&sty=FPGBKI&js=({data:[(x)],recordsFiltered:(tot)})&cmd=C._BKGN&st=(ChangePercent)&sr=-1&p=7&ps=20&_=1552456308730
-headers = {
-        'Accept':'*/*',
-        'Accept-Encoding':'gzip, deflate',
-        'Accept-Language':'zh-CN,zh;q=0.9;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
-        'Connection':'keep-alive',
-        'Host':'nufm.dfcfw.com',
-        'Referer':'http://quote.eastmoney.com/center/boardlist.html',
-        'User-Agent':'Mozilla/5.0'
-        }
-CLU.get_html(url = url,headers = headers,Referer = 'http://quote.eastmoney.com/center/boardlist.html')
-CLU.get_data(xpath = '//pre/text()')
-
-CLU.get_data(xpath = '/html/body/div[1]/div[2]/div[2]/div[3]/div[1]/div[1]/table/tbody/tr/td[2]/a/text()')
-
-res_all = []
-for i in range(15):
-    i+=1
-    url = 'http://nufm.dfcfw.com/EM_Finance2014NumericApplication/JS.aspx?cmd=C._BKGN&type=ct&st=(ChangePercent)&sr=-1&p=2&ps=50&js=var%20wcXXGyNB={pages:(pc),data:[(x)]}&token=894050c76af8597a853f5b408b759f5d&sty=DCFFITABK&rt=51748627'
-    req = requests.get(url = url, headers = headers)
-    a = req.text.split(',')
-    b = np.arange(3,len(a),16)
-    res = []
-    for i,v in enumerate(a):
-        if i in b: res.append(v)
-    res_all.extend(res)
-res_all = list(set(res_all))
-
-c = req.text.split(',')
-c
-CLU.html.read()
-import json
-
-CLU.response.read()
-
-import requests
-headers['User-Agent'] = random.choice(user_agent_list)
-req = requests.get(url = url, headers = headers)
-
-html = lxml.etree.HTML(req.text) 
-import pandas as pd
-import numpy as np
-b = np.arange(2,len(req.text.split(',')),20)
-a = req.text.split(',')
-a
-
-req.text
-
-res = []
-for i,v in enumerate(a):
-    if i in b: res.append(v)
-res
-
-
-BKcd_index = []
-
-a = [1,2,3,4,5]
-a.index(3)
-      
-len(req.text.split(','))
-
-json.read(req.text)
-html.xpath('/data')
-
-        try:
-            self.req.encoding = 'utf-8'
-        except: pass
-        self.html = lxml.etree.HTML(self.req.content) 
+        
+if __name__ == '__main__':
+    import re
+    
+    CL = SQ_Crawler_lxml()
+    url = 'http://pdfm2.eastmoney.com/EM_UBG_PDTI_Fast/api/js?id=BK05401&TYPE=K'
+    
+    CL.get_html(url=url,types='requests')
+    a = CL.get_js()
+    res = re.findall("\n(.+?),",a)
