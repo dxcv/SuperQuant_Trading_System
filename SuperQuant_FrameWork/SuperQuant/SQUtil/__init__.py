@@ -62,10 +62,10 @@ from SuperQuant.SQUtil.SQParameter import (MARKET_TYPE, ORDER_STATUS, TRADE_STAT
                                           RUNNING_ENVIRONMENT, AMOUNT_MODEL, MARKET_ERROR)
 # RANDOM class
 from SuperQuant.SQUtil.SQRandom import SQ_util_random_with_topic
-# SuperQuant Setting
-
-from SuperQuant.SQUtil.SQSetting import (SQ_Setting, DATABASE, future_ip_list, SQSETTING,
-                                        info_ip_list, stock_ip_list, exclude_from_stock_ip_list)
+# # SuperQuant Setting
+#
+# from SuperQuant.SQUtil.SQSetting import (SQ_Setting, DATABASE, future_ip_list, SQSETTING,
+#                                         info_ip_list, stock_ip_list, exclude_from_stock_ip_list)
 # sql
 from SuperQuant.SQUtil.SQSql import (SQ_util_sql_async_mongo_setting,
                                     SQ_util_sql_mongo_setting,

@@ -11,8 +11,7 @@ from SuperQuant.SQUtil.SQSql import (SQ_util_sql_async_mongo_setting,
 
 # SuperQuant有一个配置目录存放在 ~/.SuperQuant
 # 如果配置目录不存在就创建，主要配置都保存在config.json里面
-# 貌似yutian已经进行了，文件的创建步骤，他还会创建一个setting的dir
-# 需要与yutian讨论具体配置文件的放置位置 author:Will 2018.5.19
+
 
 DEFAULT_DB_URI = 'mongodb://localhost:27017'
 CONFIGFILE_PATH = '{}{}{}'.format(setting_path, os.sep, 'config.ini')

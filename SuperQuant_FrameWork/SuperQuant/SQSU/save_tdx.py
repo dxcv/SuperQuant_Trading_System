@@ -9,27 +9,27 @@ import pymongo
 
 from SuperQuant.SQFetch import SQ_fetch_get_stock_block
 from SuperQuant.SQFetch.SQTdx import (
-    SQ_fetch_get_option_day,
-    SQ_fetch_get_option_min,
-    SQ_fetch_get_index_day,
-    SQ_fetch_get_index_min,
-    SQ_fetch_get_stock_day,
-    SQ_fetch_get_stock_info,
-    SQ_fetch_get_stock_list,
-    SQ_fetch_get_future_list,
-    SQ_fetch_get_index_list,
-    SQ_fetch_get_future_day,
-    SQ_fetch_get_future_min,
-    SQ_fetch_get_stock_min,
-    SQ_fetch_get_stock_transaction,
-    SQ_fetch_get_stock_xdxr, select_best_ip)
+                                    SQ_fetch_get_option_day,
+                                    SQ_fetch_get_option_min,
+                                    SQ_fetch_get_index_day,
+                                    SQ_fetch_get_index_min,
+                                    SQ_fetch_get_stock_day,
+                                    SQ_fetch_get_stock_info,
+                                    SQ_fetch_get_stock_list,
+                                    SQ_fetch_get_future_list,
+                                    SQ_fetch_get_index_list,
+                                    SQ_fetch_get_future_day,
+                                    SQ_fetch_get_future_min,
+                                    SQ_fetch_get_stock_min,
+                                    SQ_fetch_get_stock_transaction,
+                                    SQ_fetch_get_stock_xdxr,
+                                    select_best_ip)
 from SuperQuant.SQFetch.SQTdx import (
-    SQ_fetch_get_50etf_option_contract_time_to_market,
-    SQ_fetch_get_commodity_option_CU_contract_time_to_market,
-    SQ_fetch_get_commodity_option_SR_contract_time_to_market,
-    SQ_fetch_get_commodity_option_M_contract_time_to_market,
-    SQ_fetch_get_50etf_option_contract_time_to_market,
-)
+                                    SQ_fetch_get_50etf_option_contract_time_to_market,
+                                    SQ_fetch_get_commodity_option_CU_contract_time_to_market,
+                                    SQ_fetch_get_commodity_option_SR_contract_time_to_market,
+                                    SQ_fetch_get_commodity_option_M_contract_time_to_market,
+                                    SQ_fetch_get_50etf_option_contract_time_to_market)
 from SuperQuant.SQUtil import (DATABASE, SQ_util_get_next_day,
                               SQ_util_get_real_date, SQ_util_log_info,
                               SQ_util_to_json_from_pandas, trade_date_sse)

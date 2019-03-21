@@ -8,7 +8,7 @@ from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
 import asyncio
 
 
-def SQ_util_sql_mongo_setting(uri='mongodb://localhost:27017/quantaxis'):
+def SQ_util_sql_mongo_setting(uri='mongodb://localhost:27017/SuperQuant'):
     # 采用@几何的建议,使用uri代替ip,port的连接方式
     # 这样可以对mongodb进行加密:
     # uri=mongodb://user:passwor@ip:port
@@ -18,11 +18,11 @@ def SQ_util_sql_mongo_setting(uri='mongodb://localhost:27017/quantaxis'):
 # async
 
 
-def SQ_util_sql_async_mongo_setting(uri='mongodb://localhost:27017/quantaxis'):
+def SQ_util_sql_async_mongo_setting(uri='mongodb://localhost:27017/SuperQuant'):
     """异步mongo示例
 
     Keyword Arguments:
-        uri {str} -- [description] (default: {'mongodb://localhost:27017/quantaxis'})
+        uri {str} -- [description] (default: {'mongodb://localhost:27017/SuperQuant'})
 
     Returns:
         [type] -- [description]
@@ -48,6 +48,6 @@ SQ_util_sql_mongo_sort_DESCENDING = pymongo.DESCENDING
 
 if __name__ == '__main__':
     # test async_mongo
-    client = SQ_util_sql_async_mongo_setting().quantaxis.stock_day
+    client = SQ_util_sql_async_mongo_setting().SuperQuant.stock_day
     print(client)
 
