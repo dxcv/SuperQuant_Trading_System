@@ -14,12 +14,11 @@ import os
 
 
 path = os.path.expanduser('~')
-qa_path = '{}{}{}'.format(path, os.sep, '.quantaxis')
+sq_path = '{}{}{}'.format(path, os.sep, '.SuperQuant')
 
 
 def generate_path(name):
-    return '{}{}{}'.format(qa_path, os.sep, name)
-
+    return '{}{}{}'.format(sq_path, os.sep, name)
 
 def make_dir(path, exist_ok=True):
     os.makedirs(path, exist_ok=exist_ok)
@@ -33,7 +32,7 @@ strategy_path = generate_path('strategy')
 bin_path = generate_path('bin')  #给一些dll文件存储用
 
 
-make_dir(qa_path, exist_ok=True)
+make_dir(sq_path, exist_ok=True)
 make_dir(setting_path, exist_ok=True)
 make_dir(cache_path, exist_ok=True)
 make_dir(download_path, exist_ok=True)
