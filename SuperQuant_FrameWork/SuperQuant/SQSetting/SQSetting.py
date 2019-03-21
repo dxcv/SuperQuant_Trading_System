@@ -151,8 +151,8 @@ class SQ_Setting():
 
 
 SQSETTING = SQ_Setting()
-DATABASE = SQSETTING.client.quantaxis
-DATABASE_ASYNC = SQSETTING.client_async.quantaxis
+DATABASE = SQSETTING.client.SuperQuant
+DATABASE_ASYNC = SQSETTING.client_async.SuperQuant
 
 
 def exclude_from_stock_ip_list(exclude_ip_list):

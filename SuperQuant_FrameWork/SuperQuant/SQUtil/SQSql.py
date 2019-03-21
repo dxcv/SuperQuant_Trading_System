@@ -4,7 +4,7 @@
 import pymongo
 from motor.motor_asyncio import AsyncIOMotorClient
 from motor import MotorClient
-from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
+# from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
 import asyncio
 
 
@@ -50,4 +50,5 @@ if __name__ == '__main__':
     # test async_mongo
     client = SQ_util_sql_async_mongo_setting().SuperQuant.stock_day
     print(client)
+    print(SQ_util_sql_mongo_setting())
 

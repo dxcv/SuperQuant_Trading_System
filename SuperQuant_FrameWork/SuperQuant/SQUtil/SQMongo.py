@@ -20,15 +20,10 @@ def SQ_util_mongo_initial(db=DATABASE):
     db.drop_collection('stock_transaction')
     db.drop_collection('stock_xdxr')
 
-
-
-
-
 def SQ_util_mongo_status(db=DATABASE):
     SQ_util_log_info(db.collection_names())
     SQ_util_log_info(db.last_status())
     SQ_util_log_info(subprocess.call('mongostat', shell=True))
-
 
 def SQ_util_mongo_infos(db=DATABASE):
 
