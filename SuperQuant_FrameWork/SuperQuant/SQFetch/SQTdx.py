@@ -15,8 +15,7 @@ from pytdx.exhq import TdxExHq_API
 from pytdx.hq import TdxHq_API
 
 from SuperQuant.SQFetch.base import _select_market_code, _select_type
-from SuperQuant.SQUtil import (SQ_Setting,
-                               SQ_util_date_stamp,
+from SuperQuant.SQUtil import (SQ_util_date_stamp,
                                SQ_util_date_str2int,
                                SQ_util_date_valid,
                                SQ_util_get_real_date,
@@ -104,7 +103,6 @@ def select_best_ip():
     ipdefault = eval(ipdefault) if isinstance(ipdefault, str) else ipdefault
     assert isinstance(ipdefault, dict)
     if ipdefault['stock']['ip'] == None:
-
         best_stock_ip = get_ip_list_by_ping(
             stock_ip_list, filename='stock_ip_list_MP')
     else:
@@ -504,9 +502,6 @@ B股买卖的代码是以200打头，如：深中冠B股，代码是200018。
 中小板股票代码以002打头，如：东华合创股票代码是002065。
 创业板股票代码以300打头，如：探路者股票代码是：300005
 
-
-更多参见 issue https://github.com/SuperQuant/SuperQuant/issues/158
-@yutiansut
 '''
 
 

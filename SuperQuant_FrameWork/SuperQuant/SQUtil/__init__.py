@@ -68,15 +68,15 @@ from SuperQuant.SQUtil.SQRandom import SQ_util_random_with_topic
 #                                         info_ip_list, stock_ip_list, exclude_from_stock_ip_list)
 # sql
 from SuperQuant.SQUtil.SQSql import (SQ_util_sql_async_mongo_setting,
-                                    SQ_util_sql_mongo_setting,
-                                    SQ_util_sql_mongo_sort_ASCENDING,
-                                    SQ_util_sql_mongo_sort_DESCENDING)
+                                     SQ_util_sql_mongo_setting,
+                                     SQ_util_sql_mongo_sort_ASCENDING,
+                                     SQ_util_sql_mongo_sort_DESCENDING)
 # format
 from SuperQuant.SQUtil.SQTransform import (SQ_util_to_json_from_pandas,
-                                          SQ_util_to_list_from_numpy,
-                                          SQ_util_to_list_from_pandas,
-                                          SQ_util_to_pandas_from_json,
-                                          SQ_util_to_pandas_from_list)
+                                           SQ_util_to_list_from_numpy,
+                                           SQ_util_to_list_from_pandas,
+                                           SQ_util_to_pandas_from_json,
+                                           SQ_util_to_pandas_from_list)
 
 # 网络相关
 from SuperQuant.SQUtil.SQWebutil import SQ_util_web_ping
@@ -94,3 +94,4 @@ from SuperQuant.SQUtil.SQDateTools import (
 
 # 爬虫工具
 from SuperQuant.SQUtil.SQCrawler import (SQ_Crawler_lxml)
+from SuperQuant.SQUtil.ParallelSim import ParallelSim
