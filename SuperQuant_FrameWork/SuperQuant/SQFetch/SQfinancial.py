@@ -7,7 +7,7 @@ import pandas as pd
 from pytdx.reader.history_financial_reader import HistoryFinancialReader
 from pytdx.crawler.history_financial_crawler import HistoryFinancialCrawler
 from SuperQuant.SQUtil.SQFile import SQ_util_file_md5
-from SuperQuant.SQSetting.SQLocalize import qa_path, download_path
+from SuperQuant.SQSetting.SQLocalize import sq_path, download_path
 
 """
 参见PYTDX 1.65
@@ -100,7 +100,7 @@ def parse_all():
     """
     解析目录下的所有文件
     """
-    # filepath = '{}{}{}{}'.format(qa_path, os.sep, 'downloads', os.sep)
+    # filepath = '{}{}{}{}'.format(sq_path, os.sep, 'downloads', os.sep)
     filename = os.listdir(download_path)
 
     return parse_filelist(filename)

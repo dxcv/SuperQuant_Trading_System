@@ -6,8 +6,8 @@ import os
 
 from SuperQuant.SQSetting.SQLocalize import sq_path, setting_path, strategy_path
 from SuperQuant.SQSU.user import SQ_user_sign_in
-from SuperQuant.SQUtil.SQSql import (SQ_util_sql_async_mongo_setting,
-                                    SQ_util_sql_mongo_setting)
+from SuperQuant.SQDatabase.SQDBSetting import (SQ_util_async_mongo_setting,
+                                    SQ_util_mongo_setting)
 
 # SuperQuant有一个配置目录存放在 ~/.SuperQuant
 # 如果配置目录不存在就创建，主要配置都保存在config.json里面
@@ -126,11 +126,11 @@ class SQ_Setting():
 
     @property
     def client(self):
-        return SQ_util_sql_mongo_setting(self.mongo_uri)
+        return SQ_util_mongo_setting(self.mongo_uri)
 
     @property
     def client_async(self):
-        return SQ_util_sql_async_mongo_setting(self.mongo_uri)
+        return SQ_util_async_mongo_setting(self.mongo_uri)
 
     def change(self, ip, port):
         self.ip = ip
@@ -260,3 +260,5 @@ future_ip_list = [
 '61.135.142.85', '61.135.149.181', '114.80.80.210', '222.73.49.15', '221.194.181.176']
 """
 
+if __name__ == '__main__':
+    DATABASE.stock_day

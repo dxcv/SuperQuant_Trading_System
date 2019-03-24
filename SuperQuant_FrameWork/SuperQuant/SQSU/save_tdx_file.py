@@ -5,8 +5,9 @@ import os
 
 from pytdx.reader import TdxMinBarReader
 
-from SuperQuant.SQUtil import (DATABASE, SQ_util_date_stamp, SQ_util_log_info,
+from SuperQuant.SQUtil import (SQ_util_date_stamp, SQ_util_log_info,
                                SQ_util_time_stamp)
+from SuperQuant.SQSetting.SQSetting import DATABASE
 
 
 def SQ_save_tdx_to_mongo(file_dir, client=DATABASE):

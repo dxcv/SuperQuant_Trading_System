@@ -30,9 +30,15 @@ from SuperQuant.SQFetch.SQTdx import (
                                     SQ_fetch_get_commodity_option_SR_contract_time_to_market,
                                     SQ_fetch_get_commodity_option_M_contract_time_to_market,
                                     SQ_fetch_get_50etf_option_contract_time_to_market)
-from SuperQuant.SQUtil import (DATABASE, SQ_util_get_next_day,
+from SuperQuant.SQUtil import (SQ_util_get_next_day,
                               SQ_util_get_real_date, SQ_util_log_info,
                               SQ_util_to_json_from_pandas, trade_date_sse)
+
+from SuperQuant.SQSetting.SQSetting import DATABASE
+
+
+
+
 
 # ip=select_best_ip()
 
