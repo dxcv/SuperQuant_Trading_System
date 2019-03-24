@@ -6,7 +6,7 @@ import pandas as pd
 from SuperQuant.SQARP.SQPortfolio import SQ_Portfolio
 from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
 from SuperQuant.SQUtil.SQRandom import SQ_util_random_with_topic
-from SuperQuant.SQUtil.SQSetting import SQ_Setting
+from SuperQuant.SQSetting.SQSetting import SQ_Setting
 
 
 class SQ_User():
