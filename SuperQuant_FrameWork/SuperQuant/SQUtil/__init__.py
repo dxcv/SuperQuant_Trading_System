@@ -72,7 +72,7 @@
 #
 #
 # # format
-# from SuperQuant.SQUtil.SQTransform import (SQ_util_to_json_from_pandas,
+# (SQ_util_to_json_from_pandas,
 #                                            SQ_util_to_list_from_numpy,
 #                                            SQ_util_to_list_from_pandas,
 #                                            SQ_util_to_pandas_from_json,
