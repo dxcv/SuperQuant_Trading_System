@@ -3,7 +3,7 @@
 
 import datetime
 
-from SuperQuant.SQUtil.SQParameter import MARKET_TYPE
+from SuperQuant.SQSetting.SQParameter import MARKET_TYPE
 
 # todo 🛠 只记录非交易日，其余的用程序迭代 生成交易日
 

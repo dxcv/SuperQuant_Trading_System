@@ -23,16 +23,20 @@ import numpy as np
 import pandas as pd
 from pyecharts import Kline
 
+from SuperQuant.SQSetting.SQSetting import DATABASE
+
 from SuperQuant.SQData.base_datastruct import _quotation_base
 from SuperQuant.SQData.data_fq import SQ_data_stock_to_fq
 from SuperQuant.SQData.data_resample import SQ_data_tick_resample, SQ_data_day_resample, SQ_data_min_resample
-from SuperQuant.SQIndicator import EMA, HHV, LLV, SMA
-from SuperQuant.SQUtil import (DATABASE, SQ_util_log_info,
-                              SQ_util_random_with_topic,
-                              SQ_util_to_json_from_pandas,
-                              SQ_util_to_pandas_from_json, trade_date_sse)
+
+# from SuperQuant.SQIndicator.talib_series import EMA, HHV, LLV, SMA
+
+from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
+from SuperQuant.SQUtil.SQRandom import SQ_util_random_with_topic
+from SuperQuant.SQUtil.SQTransform import (SQ_util_to_json_from_pandas,SQ_util_to_pandas_from_json)
+from SuperQuant.SQUtil.SQDate_trade import trade_date_sse
 from SuperQuant.SQUtil.SQDate import SQ_util_to_datetime
-from SuperQuant.SQUtil.SQParameter import FREQUENCE, MARKET_TYPE
+from SuperQuant.SQSetting.SQParameter import FREQUENCE, MARKET_TYPE
 
 
 class SQ_DataStruct_Stock_day(_quotation_base):

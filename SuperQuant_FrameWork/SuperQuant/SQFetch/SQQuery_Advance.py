@@ -6,11 +6,15 @@ import pymongo
 import pandas as pd
 from pandas import DataFrame
 
-from SuperQuant.SQData import (SQ_DataStruct_Index_day, SQ_DataStruct_Index_min,
-                              SQ_DataStruct_Future_day, SQ_DataStruct_Future_min,
-                              SQ_DataStruct_Stock_block, SQ_DataStruct_Financial,
-                              SQ_DataStruct_Stock_day, SQ_DataStruct_Stock_min,
-                              SQ_DataStruct_Stock_transaction)
+from SuperQuant.SQSetting.SQSetting import DATABASE,SQ_Setting
+
+from SuperQuant.SQData.SQDataStruct import (SQ_DataStruct_Index_day, SQ_DataStruct_Index_min,
+                                              SQ_DataStruct_Future_day, SQ_DataStruct_Future_min,
+                                              SQ_DataStruct_Stock_day, SQ_DataStruct_Stock_min,
+                                              SQ_DataStruct_Stock_transaction)
+from SuperQuant.SQData.SQBlockStruct import SQ_DataStruct_Stock_block
+from SuperQuant.SQData.SQFinancialStruct import SQ_DataStruct_Financial
+
 from SuperQuant.SQFetch.SQQuery import (SQ_fetch_index_day,
                                        SQ_fetch_index_min,
                                        SQ_fetch_stock_day,
@@ -23,13 +27,16 @@ from SuperQuant.SQFetch.SQQuery import (SQ_fetch_index_day,
                                        SQ_fetch_index_list,
                                        SQ_fetch_future_list,
                                        SQ_fetch_stock_financial_calendar,
-                                       SQ_fetch_stock_divyield
-                                       )
+                                       SQ_fetch_stock_divyield)
+
 from SuperQuant.SQUtil.SQDate import month_data
-from SuperQuant.SQUtil import (DATABASE, SQ_Setting, SQ_util_date_stamp,
-                              SQ_util_date_valid, SQ_util_log_info,
-                              SQ_util_time_stamp, SQ_util_getBetweenQuarter,
-                              SQ_util_datetime_to_strdate, SQ_util_add_months)
+from SuperQuant.SQUtil.SQDate import (SQ_util_date_stamp,
+                                      SQ_util_date_valid,
+                                      SQ_util_time_stamp,
+                                      SQ_util_datetime_to_strdate)
+from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
+from SuperQuant.SQUtil.SQDateTools import (SQ_util_get_1st_of_next_month,
+                                            SQ_util_add_months, SQ_util_getBetweenMonth)
 
 """
 按要求从数据库取数据，并转换成numpy结构
@@ -591,5 +598,5 @@ def SQ_fetch_stock_divyield_adv(code, start="all", end=None, format='pd', collec
 
 
 if __name__ == '__main__':
-    SQ_fetch_stock_realtime_adv(['000001', '000002'], num=10)
+    print(SQ_fetch_stock_day_adv(['000001', '000002']).data)
 

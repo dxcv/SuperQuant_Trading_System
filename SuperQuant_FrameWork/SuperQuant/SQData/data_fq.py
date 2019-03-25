@@ -2,11 +2,9 @@
 # coding:utf-8
 
 import datetime
-
 import pandas as pd
-
-from SuperQuant.SQUtil import DATABASE, SQ_util_log_info
-
+from SuperQuant.SQSetting.SQSetting import DATABASE
+from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
 
 # def SQ_data_make_qfq(bfq_data, xdxr_data):
 #     '使用数据库数据进行复权'

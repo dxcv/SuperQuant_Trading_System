@@ -1,7 +1,6 @@
 # coding:utf-8
 
 from datetime import time
-
 import pandas as pd
 
 def SQ_data_tick_resample_1min(tick, type_='1min', if_drop=True):

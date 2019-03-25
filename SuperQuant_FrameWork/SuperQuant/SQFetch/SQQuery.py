@@ -6,8 +6,11 @@ import datetime
 import numpy
 import pandas as pd
 from pandas import DataFrame
+
 from SuperQuant.SQSetting.SQSetting import DATABASE,SQ_Setting
+
 from SuperQuant.SQDatabase.SQDBSetting import SQ_util_mongo_sort_DESCENDING
+
 from SuperQuant.SQUtil.SQDate import (SQ_util_date_stamp,
                                       SQ_util_date_valid,
                                       SQ_util_date_str2int, SQ_util_date_int2str,
@@ -18,6 +21,7 @@ from SuperQuant.SQUtil.SQDict import  SQ_util_dict_remove_key
 from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
 from SuperQuant.SQUtil.SQCode import SQ_util_code_tolist
 from SuperQuant.SQUtil.SQTransform import SQ_util_to_json_from_pandas
+
 from SuperQuant.SQData.financial_mean import financial_dict
 
 """
