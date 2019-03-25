@@ -36,10 +36,6 @@ from SuperQuant.SQUtil.SQTransform import SQ_util_to_json_from_pandas
 from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
 from SuperQuant.SQSetting.SQSetting import DATABASE
 
-
-
-
-
 # ip=select_best_ip()
 
 

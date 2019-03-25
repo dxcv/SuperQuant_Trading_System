@@ -12,7 +12,7 @@ from pytdx.hq import TdxHq_API
 
 from SuperQuant.SQUtil.SQDate_trade import SQ_util_if_tradetime
 from SuperQuant.SQUtil.SQSetting import DATABASE, stock_ip_list
-from SuperQuant.SQUtil.SQSql import SQ_util_sql_mongo_sort_ASCENDING
+from SuperQuant.SQDatabase.SQDBSetting import SQ_util_mongo_sort_ASCENDING
 from SuperQuant.SQUtil.SQTransform import SQ_util_to_json_from_pandas
 
 
