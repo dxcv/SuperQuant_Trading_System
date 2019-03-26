@@ -82,27 +82,90 @@ logo = ''
 # import argparse
 
 ###
-# from SuperQuant import SQApplication
-# from SuperQuant import SQARP
-# from SuperQuant import SQCmd
-from SuperQuant import SQData
-from SuperQuant import SQDatabase
-from SuperQuant import SQEngine
-from SuperQuant import SQFetch
-# from SuperQuant import SQIndicator
-# from SuperQuant import SQMarket
-from SuperQuant import SQSetting
-from SuperQuant import SQSU
-from SuperQuant import SQUtil
+# # from SuperQuant import SQApplication
+# # from SuperQuant import SQARP
+# # from SuperQuant import SQCmd
+# from SuperQuant import SQData
+# from SuperQuant import SQDatabase
+# from SuperQuant import SQEngine
+# from SuperQuant import SQFetch
+# # from SuperQuant import SQIndicator
+# # from SuperQuant import SQMarket
+# from SuperQuant import SQSetting
+# from SuperQuant import SQSU
+# from SuperQuant import SQUtil
 
-from SuperQuant.SQFetch.SQQuery_Advance import *
-
+# from SuperQuant.SQFetch.SQQuery_Advance import *
+# from SuperQuant.SQSU import save_financialfiles
+# from SuperQuant.SQUtil import SQAuth
 # check
 import sys
 if sys.version_info.major != 3 or sys.version_info.minor not in [4, 5, 6, 7, 8]:
     print('wrong version, should be 3.4/3.5/3.6/3.7/3.8 version')
     sys.exit()
 
+## 导入便捷包方便调用
+from SuperQuant.SQFetch.SQQuery_Advance import *
+## import ALL
+from SuperQuant import *
+## import SQData
+from SuperQuant.SQData import base_datastruct
+from SuperQuant.SQData import data_fq
+from SuperQuant.SQData import data_resample
+from SuperQuant.SQData import financial_mean
+from SuperQuant.SQData import SQBlockStruct
+from SuperQuant.SQData import SQDataStruct
+from SuperQuant.SQData import SQFinancialStruct
+## import SQDatabase
+from SuperQuant.SQDatabase import SQDBSetting
+from SuperQuant.SQDatabase import SQMongo
+## import SQEngine
+from SuperQuant.SQEngine.SQEvent import SQ_Event, SQ_Worker
+from SuperQuant.SQEngine.SQTask import SQ_Task
+from SuperQuant.SQEngine.SQThreadEngine import SQ_Thread, SQ_Engine
+## import SQFetch
+from SuperQuant.SQFetch import SQTdx
+from SuperQuant.SQFetch import SQfinancial
+from SuperQuant.SQFetch import base
+from SuperQuant.SQFetch import SQQuery
+from SuperQuant.SQFetch import SQQuery_Advance
+## import SQSetting
+from SuperQuant.SQSetting import host
+from SuperQuant.SQSetting import SQSetting
+from SuperQuant.SQSetting import SQLocalize
+from SuperQuant.SQSetting import SQParameter
+## import SQSU
+from SuperQuant.SQSU import save_tdx
+from SuperQuant.SQSU import save_account
+from SuperQuant.SQSU import save_financialfiles
+from SuperQuant.SQSU import user
+## import SQUtil
+from SuperQuant.SQUtil import ParallelSim
+from SuperQuant.SQUtil import SQAuth
+from SuperQuant.SQUtil import SQBar
+from SuperQuant.SQUtil import SQCfg
+from SuperQuant.SQUtil import SQCode
+from SuperQuant.SQUtil import SQCrawler
+from SuperQuant.SQUtil import SQcrypto
+from SuperQuant.SQUtil import SQCsv
+from SuperQuant.SQUtil import SQDate
+from SuperQuant.SQUtil import SQDate_trade
+from SuperQuant.SQUtil import SQDateTools
+from SuperQuant.SQUtil import SQDict
+from SuperQuant.SQUtil import SQError
+from SuperQuant.SQUtil import SQFile
+from SuperQuant.SQUtil import SQList
+from SuperQuant.SQUtil import SQLogs
+from SuperQuant.SQUtil import SQMail
+from SuperQuant.SQUtil import SQPlot
+from SuperQuant.SQUtil import SQRandom
+from SuperQuant.SQUtil import SQText
+from SuperQuant.SQUtil import SQTransform
+from SuperQuant.SQUtil import SQWebutil
 
-#SQ_util_log_info('Welcome to SuperQuant, the Version is {}'.format(__version__))
+
+
+
+
+# SQ_util_log_info('Welcome to SuperQuant, the Version is {}'.format(__version__))
 # SQ_util_log_info(logo)

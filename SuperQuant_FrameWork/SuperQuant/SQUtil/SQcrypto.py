@@ -1,4 +1,5 @@
-from SuperQuant.SQUtil import (SQSETTING, SQ_util_log_info)
+from SuperQuant.SQSetting.SQSetting import SQSETTING
+from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
 
 TIMEOUT = 10
 ILOVECHINA = "同学！！你知道什么叫做科学上网么？ 如果你不知道的话，那么就加油吧！"

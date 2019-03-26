@@ -121,4 +121,4 @@
 # from . import SQTransform
 # from . import SQWebutil
 #
-
+# from SuperQuant.SQUtil import *
