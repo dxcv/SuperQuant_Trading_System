@@ -507,7 +507,6 @@ def SQ_fetch_financial_report_adv(code, start, end=None, ltype='EN'):
     """
 
     if end is None:
-
         return SQ_DataStruct_Financial(SQ_fetch_financial_report(code, start, ltype=ltype))
     else:
         series = pd.Series(

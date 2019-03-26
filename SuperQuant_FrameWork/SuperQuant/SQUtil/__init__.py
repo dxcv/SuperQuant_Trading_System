@@ -95,3 +95,30 @@
 # # 爬虫工具
 # from SuperQuant.SQUtil.SQCrawler import (SQ_Crawler_lxml)
 # from SuperQuant.SQUtil.ParallelSim import ParallelSim
+
+
+#########################################
+# from . import ParallelSim
+# from . import SQAuth
+# from . import SQBar
+# from . import SQCfg
+# from . import SQCode
+# from . import SQCrawler
+# from . import SQcrypto
+# from . import SQCsv
+# from . import SQDate
+# from . import SQDate_trade
+# from . import SQDateTools
+# from . import SQDict
+# from . import SQError
+# from . import SQFile
+# from . import SQList
+# from . import SQLogs
+# from . import SQMail
+# from . import SQPlot
+# from . import SQRandom
+# from . import SQText
+# from . import SQTransform
+# from . import SQWebutil
+#
+

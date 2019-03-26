@@ -7,10 +7,11 @@ import pymongo
 
 from SuperQuant.SQFetch.SQfinancial import (download_financialzip, parse_all,
                                            parse_filelist)
-from SuperQuant.SQSetting.SQLocalize import (cache_path, download_path, qa_path,
+from SuperQuant.SQSetting.SQLocalize import (cache_path, download_path_financial, sq_path,
                                             setting_path)
-from SuperQuant.SQUtil import DATABASE, SQ_util_date_int2str
-from SuperQuant.SQUtil.SQSql import ASCENDING, DESCENDING
+from SuperQuant.SQSetting.SQSetting import DATABASE
+from SuperQuant.SQUtil.SQDate import SQ_util_date_int2str
+from SuperQuant.SQDatabase.SQDBSetting import ASCENDING, DESCENDING
 from SuperQuant.SQUtil.SQTransform import SQ_util_to_json_from_pandas
 import datetime
 
@@ -22,7 +23,7 @@ def SQ_SU_save_financial_files():
     coll = DATABASE.financial
     coll.create_index(
         [("code", ASCENDING), ("report_date", ASCENDING)], unique=True)
-    for item in os.listdir(download_path):
+    for item in os.listdir(download_path_financial):
         if item[0:4] != 'gpcw':
             print(
                 "file ", item, " is not start with gpcw , seems not a financial file , ignore!")

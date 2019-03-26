@@ -16,12 +16,12 @@ from pytdx.hq import TdxHq_API
 
 from SuperQuant.SQFetch.base import _select_market_code, _select_type
 from SuperQuant.SQUtil.SQDate import (SQ_util_date_stamp,
-                               SQ_util_date_str2int,
-                               SQ_util_date_valid,
+                                   SQ_util_date_str2int,
+                                   SQ_util_date_valid,
 
-                               SQ_util_log_info,
-                               SQ_util_time_stamp,
-)
+                                   SQ_util_log_info,
+                                   SQ_util_time_stamp,
+                                    )
 
 from SuperQuant.SQUtil.SQDate_trade import (SQ_util_get_real_date,
                                             SQ_util_get_real_datelist,
@@ -31,7 +31,6 @@ from SuperQuant.SQUtil.SQDate_trade import (SQ_util_get_real_date,
                                             trade_date_sse)
 from SuperQuant.SQUtil.SQWebutil import SQ_util_web_ping
 from SuperQuant.SQUtil.ParallelSim import ParallelSim
-
 from SuperQuant.SQSetting.SQSetting import (exclude_from_stock_ip_list,
                                             future_ip_list,
                                             stock_ip_list,

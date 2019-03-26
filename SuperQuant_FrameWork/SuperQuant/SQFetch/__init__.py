@@ -1,7 +1,10 @@
 # coding:utf-8
 
-from SuperQuant.SQFetch import SQTdx
-from SuperQuant.SQFetch import SQfinancial
+from . import SQTdx
+from . import SQfinancial
+# from . import base
+# from . import SQQuery
+# from . import SQQuery_Advance
 
 
 def use(package):
