@@ -6,8 +6,8 @@ import threading
 import time
 from queue import Queue
 
-from SUPERQUANT.SQEngine.SQTask import SQ_Task
-from SUPERQUANT.SQUtil.SQLogs import SQ_util_log_info
+from SuperQuant.SQEngine.SQTask import SQ_Task
+from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
 from SuperQuant.SQUtil.SQRandom import SQ_util_random_with_topic
 
 """标准化的SuperQuant事件分发,可以快速引入和复用

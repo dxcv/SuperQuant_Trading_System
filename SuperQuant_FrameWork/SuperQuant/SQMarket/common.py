@@ -2,7 +2,7 @@
 # shipane
 
 # "申报时间", "证券代码", "证券名称", "操作", "委托状态", "委托数量", "成交数量", "撤消数量", , "委托价格", "成交均价", "合同编号", "委托子业务", "约定号", "对方账户", "参考汇率", "结算币种", "交易币种", "证券中文名", "出错信息
-from SuperQuant.SQUtil.SQParameter import ORDER_DIRECTION, TRADE_STATUS, ORDER_STATUS
+from SuperQuant.SQSetting.SQParameter import ORDER_DIRECTION, TRADE_STATUS, ORDER_STATUS
 
 cn_en_compare = {'明细': 'id',
                  '证券代码': 'code',

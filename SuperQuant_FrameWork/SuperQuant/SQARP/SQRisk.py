@@ -23,7 +23,7 @@ from SuperQuant.SQFetch.SQQuery_Advance import (SQ_fetch_index_day_adv,
                                                SQ_fetch_stock_day_adv)
 from SuperQuant.SQSU.save_account import save_riskanalysis
 from SuperQuant.SQUtil.SQDate_trade import SQ_util_get_trade_gap, SQ_util_get_trade_range
-from SuperQuant.SQUtil.SQParameter import MARKET_TYPE
+from SuperQuant.SQSetting.SQParameter import MARKET_TYPE
 
 # FIXED: no display found
 """

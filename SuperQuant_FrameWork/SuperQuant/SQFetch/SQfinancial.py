@@ -7,7 +7,7 @@ import pandas as pd
 from pytdx.reader.history_financial_reader import HistoryFinancialReader
 from pytdx.crawler.history_financial_crawler import HistoryFinancialCrawler
 from SuperQuant.SQUtil.SQFile import SQ_util_file_md5
-from SuperQuant.SQSetting.SQLocalize import sq_path, download_path
+from SuperQuant.SQSetting.SQLocalize import sq_path, download_path_financial
 
 """
 参见PYTDX 1.65
@@ -17,7 +17,6 @@ FINANCIAL_URL = 'http://down.tdx.com.cn:8001/fin/gpcw.txt'
 
 
 class SQHistoryFinancialCrawler(HistoryFinancialCrawler):
-
     def to_df(self, data):
         if len(data) == 0:
             return None
@@ -73,15 +72,12 @@ def download_financialzip():
     result = get_filename()
     res = []
     for item, md5 in result:
-        if item in os.listdir(download_path) and md5 == SQ_util_file_md5('{}{}{}'.format(download_path, os.sep, item)):
-
-            print('FILE {} is already in {}'.format(item, download_path))
+        if item in os.listdir(download_path_financial) and md5 == SQ_util_file_md5('{}{}{}'.format(download_path_financial, os.sep, item)):
+            print('FILE {} is already in {}'.format(item, download_path_financial))
         else:
-            print('CURRENTLY GET/UPDATE {}'.format(item[0:12]))
+            print('Currently Get/Update Financial Data{}'.format(item[0:12]))
             r = requests.get('http://down.tdx.com.cn:8001/fin/{}'.format(item))
-
-            file = '{}{}{}'.format(download_path, os.sep, item)
-
+            file = '{}{}{}'.format(download_path_financial, os.sep, item)
             with open(file, "wb") as code:
                 code.write(r.content)
             res.append(item)
@@ -93,7 +89,7 @@ def get_and_parse(filename):
 
 
 def parse_filelist(filelist):
-    return pd.concat([get_and_parse('{}{}{}'.format(download_path, os.sep, item)) for item in filelist])
+    return pd.concat([get_and_parse('{}{}{}'.format(download_path_financial, os.sep, item)) for item in filelist])
 
 
 def parse_all():
@@ -101,7 +97,7 @@ def parse_all():
     解析目录下的所有文件
     """
     # filepath = '{}{}{}{}'.format(sq_path, os.sep, 'downloads', os.sep)
-    filename = os.listdir(download_path)
+    filename = os.listdir(download_path_financial)
 
     return parse_filelist(filename)
 

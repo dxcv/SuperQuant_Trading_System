@@ -15,11 +15,11 @@ from SuperQuant.SQMarket.SQOrder import SQ_Order, SQ_OrderQueue
 from SuperQuant.SQSU.save_account import save_account, update_account
 from SuperQuant.SQUtil.SQDate_trade import (SQ_util_get_next_day,
                                            SQ_util_get_trade_range)
-from SuperQuant.SQUtil.SQParameter import (ACCOUNT_EVENT, AMOUNT_MODEL,
-                                          BROKER_TYPE, ENGINE_EVENT, FREQUENCE,
-                                          MARKET_TYPE, ORDER_DIRECTION,
-                                          ORDER_MODEL, RUNNING_ENVIRONMENT,
-                                          TRADE_STATUS)
+from SuperQuant.SQSetting.SQParameter import (ACCOUNT_EVENT, AMOUNT_MODEL,
+                                              BROKER_TYPE, ENGINE_EVENT, FREQUENCE,
+                                              MARKET_TYPE, ORDER_DIRECTION,
+                                              ORDER_MODEL, RUNNING_ENVIRONMENT,
+                                              TRADE_STATUS)
 from SuperQuant.SQUtil.SQRandom import SQ_util_random_with_topic
 
 # 2017/6/4修改: 去除总资产的动态权益计算

@@ -1,7 +1,7 @@
 #
 
 
-from SUPERQUANT.SQUtil.SQRandom import SQ_util_random_with_topic
+from SuperQuant.SQUtil.SQRandom import SQ_util_random_with_topic
 
 
 """标准的SuperQuant事件方法,具有SQ_Thread,SQ_Event等特性,以及一些日志和外部接口"""
