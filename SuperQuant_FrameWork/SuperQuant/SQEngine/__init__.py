@@ -1,4 +1,3 @@
-
 #
 from SuperQuant.SQEngine.SQEvent import SQ_Event, SQ_Worker
 from SuperQuant.SQEngine.SQTask import SQ_Task

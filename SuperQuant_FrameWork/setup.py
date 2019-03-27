@@ -1,26 +1,5 @@
 #coding :utf-8
-#
-# The MIT License (MIT)
-#
-# Copyright (c) 2019 Junfeng Li/SuperQuant
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
+
 
 """
 SuperQuant
@@ -51,7 +30,7 @@ if sys.version_info.major != 3 or sys.version_info.minor not in [4, 5, 6, 7, 8]:
     print('wrong version, should be 3.4/3.5/3.6/3.7/3.8 version')
     sys.exit()
 
-version = '0.0.28.dev0'
+version = '0.0.31.dev0'
 author = 'Junfeng Li'
 
 try:
@@ -72,7 +51,7 @@ NAME = "SuperQuant"
 """
 名字，一般放你包的名字即可
 """
-PACKAGES = find_packages()#["SuperQuant","SuperQuant.SQ_Backtesting"]
+PACKAGES = ["SuperQuant"]#find_packages()#["SuperQuant","SuperQuant.SQ_Backtesting"]
 """
 包含的包，可以多个，这是一个列表
 """

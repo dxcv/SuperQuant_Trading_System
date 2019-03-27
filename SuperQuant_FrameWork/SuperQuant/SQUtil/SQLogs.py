@@ -18,8 +18,7 @@ import os
 from zenlog import logging
 
 from SuperQuant.SQSetting.SQLocalize import log_path, setting_path
-
-CONFIGFILE_PATH = '{}{}{}'.format(setting_path, os.sep, 'config.ini')
+from SuperQuant.SQSetting.SQSetting import CONFIGFILE_PATH
 
 
 def get_config():
@@ -56,9 +55,9 @@ def get_config():
 logging.basicConfig(level=logging.WARNING,
                     format='%(asctime)s SuperQuant>>> %(message)s',
                     datefmt='%H:%M:%S',
-                    filename='{}{}quantaxis-{}-.log'.format(get_config(), os.sep, str(datetime.datetime.now().strftime(
+                    filename='{}{}SuperQuant-{}-.log'.format(get_config(), os.sep, str(datetime.datetime.now().strftime(
                         '%Y-%m-%d-%H-%M-%S'))),
-                    filemode='w',
+                    filemode='w'
                     )
 console = logging.StreamHandler()
 console.setLevel(logging.WARNING)

@@ -14,8 +14,8 @@ import os
 """
 
 ### TODO:添加到UI配置
-# path = os.path.expanduser('~')
-path = os.path.abspath('D:/')
+path = os.path.expanduser('~')
+# path = os.path.abspath('D:/')
 sq_path = '{}{}{}'.format(path, os.sep, '.SuperQuant')
 
 

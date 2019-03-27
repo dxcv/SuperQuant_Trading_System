@@ -2,9 +2,9 @@
 
 from SuperQuant.SQFetch import SQTdx
 from SuperQuant.SQFetch import SQfinancial
-# from . import base
-# from . import SQQuery
-# from . import SQQuery_Advance
+# from SuperQuant.SQFetch import base
+# from SuperQuant.SQFetch import SQQuery
+# from SuperQuant.SQFetch import SQQuery_Advance
 
 
 def use(package):

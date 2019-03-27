@@ -2,8 +2,7 @@
 
 
 from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
-
-
+#
 def SQ_user_sign_in(name, password, client):
 
     coll = client.user_list

@@ -1,5 +1,29 @@
 # # coding:utf-8
 #
+
+# __all__=['ParallelSim',
+#          'SQAuth',
+#          'SQBar',
+#          'SQCfg',
+#          'SQCode',
+#          'SQCrawler',
+#          'SQcrypto',
+#          'SQCsv',
+#          'SQDate',
+#          'SQDate_trade',
+#          'SQDateTools',
+#          'SQDict',
+#          'SQError',
+#          'SQFile',
+#          'SQList',
+#          'SQLogs',
+#          'SQMail',
+#          'SQPlot',
+#          'SQRandom',
+#          'SQText',
+#          'SQTransform',
+#          'SQWebutil'
+#          ]
 # """"
 # util tool
 # """
@@ -98,27 +122,27 @@
 
 
 #########################################
-# from . import ParallelSim
-# from . import SQAuth
-# from . import SQBar
-# from . import SQCfg
-# from . import SQCode
-# from . import SQCrawler
-# from . import SQcrypto
-# from . import SQCsv
-# from . import SQDate
-# from . import SQDate_trade
-# from . import SQDateTools
-# from . import SQDict
-# from . import SQError
-# from . import SQFile
-# from . import SQList
-# from . import SQLogs
-# from . import SQMail
-# from . import SQPlot
-# from . import SQRandom
-# from . import SQText
-# from . import SQTransform
-# from . import SQWebutil
+# from SuperQuant.SQUtil import ParallelSim
+# from SuperQuant.SQUtil import SQAuth
+# from SuperQuant.SQUtil import SQBar
+# from SuperQuant.SQUtil import SQCfg
+# from SuperQuant.SQUtil import SQCode
+# from SuperQuant.SQUtil import SQCrawler
+# from SuperQuant.SQUtil import SQcrypto
+# from SuperQuant.SQUtil import SQCsv
+# from SuperQuant.SQUtil import SQDate
+# from SuperQuant.SQUtil import SQDate_trade
+# from SuperQuant.SQUtil import SQDateTools
+# from SuperQuant.SQUtil import SQDict
+# from SuperQuant.SQUtil import SQError
+# from SuperQuant.SQUtil import SQFile
+# from SuperQuant.SQUtil import SQList
+# from SuperQuant.SQUtil import SQLogs
+# from SuperQuant.SQUtil import SQMail
+# from SuperQuant.SQUtil import SQPlot
+# from SuperQuant.SQUtil import SQRandom
+# from SuperQuant.SQUtil import SQText
+# from SuperQuant.SQUtil import SQTransform
+# from SuperQuant.SQUtil import SQWebutil
 #
 # from SuperQuant.SQUtil import *
