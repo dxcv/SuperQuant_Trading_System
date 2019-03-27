@@ -12,21 +12,21 @@ from SuperQuant.SQFetch import SQWind as SQWind
 from SuperQuant.SQUtil.SQParameter import (DATABASE_TABLE, DATASOURCE,
                                           FREQUENCE, MARKET_TYPE,
                                           OUTPUT_FORMAT)
-from SuperQuant.SQUtil.SQSql import SQ_util_sql_mongo_setting
+from SuperQuant.SQUtil.SQSql import SQ_util_mongo_setting
 
 
 class SQ_Fetcher():
-    def __init__(self, uri='mongodb://192.168.4.248:27017/quantaxis', username='', password=''):
+    def __init__(self, uri='mongodb://192.168.4.248:27017/SuperQuant', username='', password=''):
         """
         初始化的时候 会初始化
         """
 
-        self.database = SQ_util_sql_mongo_setting(uri).quantaxis
+        self.database = SQ_util_mongo_setting(uri).SuperQuant
         self.history = {}
         self.best_ip = SQTdx.select_best_ip()
 
     def change_ip(self, uri):
-        self.database = SQ_util_sql_mongo_setting(uri).quantaxis
+        self.database = SQ_util_mongo_setting(uri).SuperQuant
         return self
 
     def get_quotation(self, code=None, start=None, end=None, frequence=None, market=None, source=None, output=None):

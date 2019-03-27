@@ -5,7 +5,6 @@ import json
 import os
 
 from SuperQuant.SQSetting.SQLocalize import sq_path, setting_path, strategy_path
-from SuperQuant.SQSU.user import SQ_user_sign_in
 from SuperQuant.SQDatabase.SQDBSetting import (SQ_util_async_mongo_setting,
                                     SQ_util_mongo_setting)
 
@@ -18,6 +17,7 @@ CONFIGFILE_PATH = '{}{}{}'.format(setting_path, os.sep, 'config.ini')
 
 
 class SQ_Setting():
+    from SuperQuant.SQSU.user import SQ_user_sign_in
     def __init__(self, uri=None):
         self.mongo_uri = uri or self.get_config() or self.env_config() or DEFAULT_DB_URI
         self.username = None

@@ -2,7 +2,7 @@
 
 __version__ = '0.0.30.dev0'
 __author__ = 'junfeng li'
-logo = ''
+logo = 'The Quantitative Trading Framework'
 # import sys
 # import os
 # BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -108,7 +108,7 @@ if sys.version_info.major != 3 or sys.version_info.minor not in [4, 5, 6, 7, 8]:
     print('wrong version, should be 3.4/3.5/3.6/3.7/3.8 version')
     sys.exit()
 
-
+#
 # import ALL
 __all__ = ['SQData','SQDatabase','SQEngine','SQFetch','SQSetting','SQSU','SQUtil']
 from SuperQuant import *
@@ -167,9 +167,9 @@ from SuperQuant.SQUtil import SQText
 from SuperQuant.SQUtil import SQTransform
 from SuperQuant.SQUtil import SQWebutil
 # 导入便捷包方便调用
+from SuperQuant.SQFetch import *
 from SuperQuant.SQFetch.SQQuery_Advance import *
+import argparse
 
-
-
-# SQ_util_log_info('Welcome to SuperQuant, the Version is {}'.format(__version__))
-# SQ_util_log_info(logo)
+SQLogs.SQ_util_log_info('Welcome to SuperQuant, the Version is {}'.format(__version__))
+SQLogs.SQ_util_log_info(logo)

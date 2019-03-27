@@ -1,10 +1,8 @@
 # coding=utf-8
 
-
-from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
 #
 def SQ_user_sign_in(name, password, client):
-
+    from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
     coll = client.user_list
     cursor = coll.find({'username': name, 'password': password})
     if (cursor.count() > 0):
@@ -16,7 +14,7 @@ def SQ_user_sign_in(name, password, client):
 
 
 def SQ_user_sign_up(name, password, client):
-
+    from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
     coll = client.user_list
     if (coll.find({'username': name}).count() > 0):
         print(name)

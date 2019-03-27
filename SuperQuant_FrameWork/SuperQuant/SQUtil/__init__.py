@@ -146,3 +146,25 @@
 # from SuperQuant.SQUtil import SQWebutil
 #
 # from SuperQuant.SQUtil import *
+# import SuperQuant.SQUtil.ParallelSim
+# import SuperQuant.SQUtil.SQAuth
+# import SuperQuant.SQUtil.SQBar
+# import SuperQuant.SQUtil.SQCfg
+# import SuperQuant.SQUtil.SQCode
+# import SuperQuant.SQUtil.SQCrawler
+# import SuperQuant.SQUtil.SQcrypto
+# import SuperQuant.SQUtil.SQCsv
+# import SuperQuant.SQUtil.SQDate
+# import SuperQuant.SQUtil.SQDate_trade
+# import SuperQuant.SQUtil.SQDateTools
+# import SuperQuant.SQUtil.SQDict
+# import SuperQuant.SQUtil.SQError
+# import SuperQuant.SQUtil.SQFile
+# import SuperQuant.SQUtil.SQList
+# import SuperQuant.SQUtil.SQLogs
+# import SuperQuant.SQUtil.SQMail
+# import SuperQuant.SQUtil.SQPlot
+# import SuperQuant.SQUtil.SQRandom
+# import SuperQuant.SQUtil.SQText
+# import SuperQuant.SQUtil.SQTransform
+# import SuperQuant.SQUtil.SQWebutil

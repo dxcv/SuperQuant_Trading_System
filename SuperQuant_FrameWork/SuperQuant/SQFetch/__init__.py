@@ -12,7 +12,7 @@ def use(package):
         return SQTdx
 
 
-def SQ_fetch_get_stock_day(package, code, start, end, if_fq='01', frequence='day'):
+def SQ_fetch_get_stock_day(package, code, start, end, if_fq='00', frequence='day'):
     Engine = use(package)
     if package in ['tdx', 'pytdx']:
         return Engine.SQ_fetch_get_stock_day(code, start, end, if_fq, frequence)
