@@ -135,6 +135,7 @@ from SuperQuant.SQFetch import SQQuery
 from SuperQuant.SQFetch import SQQuery_Advance
 ## import SQSetting
 from SuperQuant.SQSetting import host
+from SuperQuant.SQSetting import market_preset
 from SuperQuant.SQSetting import SQSetting
 from SuperQuant.SQSetting import SQLocalize
 from SuperQuant.SQSetting import SQParameter

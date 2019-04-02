@@ -2,7 +2,6 @@
 
 
 class MARKET_PRESET:
-
     def __init__(self):
         """
               unit_table 合约乘数

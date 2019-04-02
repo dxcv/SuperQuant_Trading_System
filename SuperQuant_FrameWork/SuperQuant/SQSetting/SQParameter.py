@@ -183,7 +183,7 @@ class MARKET_TYPE():
     STOCK_US = 'stock_us'  # 美股
     FUTURE_CN = 'future_cn'  # 国内期货
     OPTION_CN = 'option_cn'  # 国内期权
-    STOCKOPTION_CN = 'stockoption_cn'  # 个股期权
+    STOCKOPTION_CN = 'stockoption_cn'  # 国内个股期权
     # BITCOIN = 'bitcoin'  # 比特币
     CRYPTOCURRENCY = 'cryptocurrency'  # 加密货币(衍生货币)
     INDEX_CN = 'index_cn'  # 中国指数

@@ -9,18 +9,23 @@ import numpy as np
 import pandas as pd
 
 from SuperQuant import __version__
-from SuperQuant.SQARP.market_preset import MARKET_PRESET
+from SuperQuant.SQSetting.market_preset import MARKET_PRESET
 from SuperQuant.SQEngine.SQEvent import SQ_Worker
 from SuperQuant.SQMarket.SQOrder import SQ_Order, SQ_OrderQueue
 from SuperQuant.SQSU.save_account import save_account, update_account
-from SuperQuant.SQUtil.SQDate_trade import (SQ_util_get_next_day,
-                                           SQ_util_get_trade_range)
-from SuperQuant.SQSetting.SQParameter import (ACCOUNT_EVENT, AMOUNT_MODEL,
-                                              BROKER_TYPE, ENGINE_EVENT, FREQUENCE,
-                                              MARKET_TYPE, ORDER_DIRECTION,
-                                              ORDER_MODEL, RUNNING_ENVIRONMENT,
+from SuperQuant.SQSetting.SQParameter import (ACCOUNT_EVENT,
+                                              AMOUNT_MODEL,
+                                              BROKER_TYPE,
+                                              ENGINE_EVENT,
+                                              FREQUENCE,
+                                              MARKET_TYPE,
+                                              ORDER_DIRECTION,
+                                              ORDER_MODEL,
+                                              RUNNING_ENVIRONMENT,
                                               TRADE_STATUS)
 from SuperQuant.SQUtil.SQRandom import SQ_util_random_with_topic
+from SuperQuant.SQUtil.SQDate_trade import (SQ_util_get_next_day,
+                                           SQ_util_get_trade_range)
 
 # 2017/6/4修改: 去除总资产的动态权益计算
 
@@ -98,10 +103,22 @@ class SQ_Account(SQ_Worker):
 
     """
 
-    def __init__(self, strategy_name=None, user_cookie=None, portfolio_cookie=None, account_cookie=None,
-                 market_type=MARKET_TYPE.STOCK_CN, frequence=FREQUENCE.DAY, broker=BROKER_TYPE.BACKETEST,
-                 init_hold={}, init_cash=1000000, commission_coeff=0.00025, tax_coeff=0.001,
-                 margin_level={}, allow_t0=False, allow_sellopen=False, allow_margin=False,
+    def __init__(self,
+                 strategy_name=None,
+                 user_cookie=None,
+                 portfolio_cookie=None,
+                 account_cookie=None,
+                 market_type=MARKET_TYPE.STOCK_CN,
+                 frequence=FREQUENCE.DAY,
+                 broker=BROKER_TYPE.BACKETEST,
+                 init_hold={},
+                 init_cash=1000000,
+                 commission_coeff=0.00025,
+                 tax_coeff=0.001,
+                 margin_level={},
+                 allow_t0=False,
+                 allow_sellopen=False,
+                 allow_margin=False,
                  running_environment=RUNNING_ENVIRONMENT.BACKETEST):
         """
 
@@ -181,8 +198,7 @@ class SQ_Account(SQ_Worker):
         }
         """
         super().__init__()
-        # warnings.warn('SuperQuant 1.0.46 has changed the init_assets ==> init_cash, please pay attention to this change if you using init_cash to initial an account class,\
-        #         ', DeprecationWarning, stacklevel=2)
+        # warnings.warn('', DeprecationWarning, stacklevel=2)
         self._history_headers = ['datetime', 'code', 'price',
                                  'amount', 'cash', 'order_id', 'realorder_id', 'trade_id',
                                  'account_cookie', 'commission', 'tax', 'message', 'frozen']
