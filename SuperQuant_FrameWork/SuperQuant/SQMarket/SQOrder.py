@@ -1,14 +1,14 @@
 # coding:utf-8
 
+
 import threading
 import pandas as pd
-
-from SuperQuant.SQSetting.SQParameter import AMOUNT_MODEL, ORDER_STATUS, ORDER_DIRECTION, ORDER_MODEL
 
 from SuperQuant.SQMarket.common import exchange_code
 from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
 from SuperQuant.SQUtil.SQRandom import SQ_util_random_with_topic
 from SuperQuant.SQUtil.SQTransform import SQ_util_to_json_from_pandas
+from SuperQuant.SQSetting.SQParameter import AMOUNT_MODEL, ORDER_STATUS, ORDER_DIRECTION, ORDER_MODEL
 from SuperQuant.SQUtil.SQDate import SQ_util_stamp2datetime
 
 """
@@ -40,12 +40,35 @@ class SQ_Order():
         记录order
     '''
 
-    def __init__(self, price=None, date=None, datetime=None, sending_time=None, trade_time=False, amount=0,
-                 market_type=None, frequence=None,
-                 towards=None, code=None, user=None, account_cookie=None, strategy=None, order_model=None, money=None,
-                 amount_model=AMOUNT_MODEL.BY_AMOUNT,
-                 order_id=None, trade_id=False, _status=ORDER_STATUS.NEW, callback=False, commission_coeff=0.00025,
-                 tax_coeff=0.001, exchange_id=None, *args, **kwargs):
+    def __init__(
+            self,
+            price=None,
+            date=None,
+            datetime=None,
+            sending_time=None,
+            trade_time=False,
+            amount=0,
+            market_type=None,
+            frequence=None,
+            towards=None,
+            code=None,
+            user=None,
+            account_cookie=None,
+            strategy=None,
+            order_model=None,
+            money=None,
+            amount_model=AMOUNT_MODEL.BY_AMOUNT,
+            broker=None,
+            order_id=None,
+            trade_id=False,
+            _status=ORDER_STATUS.NEW,
+            callback=False,
+            commission_coeff=0.00025,
+            tax_coeff=0.001,
+            exchange_id=None,
+            *args,
+            **kwargs
+    ):
         '''
 
 
@@ -124,13 +147,15 @@ class SQ_Order():
         self.order_model = order_model
         self.amount_model = amount_model
         self.order_id = SQ_util_random_with_topic(
-            topic='Order') if order_id is None else order_id
+            topic='Order'
+        ) if order_id is None else order_id
         self.realorder_id = self.order_id
         self.commission_coeff = commission_coeff
         self.tax_coeff = tax_coeff
         self.trade_id = trade_id if trade_id else []
 
         self.trade_price = 0  # 成交均价
+        self.broker = broker
         self.callback = callback  # 委托成功的callback
         self.money = money  # 委托需要的金钱
         self.reason = None  # 原因列表
@@ -154,14 +179,26 @@ class SQ_Order():
         :return:  字符串
         '''
         return '< SQ_Order realorder_id {} datetime:{} code:{} amount:{} price:{} towards:{} btype:{} order_id:{} account:{} status:{} >'.format(
-            self.realorder_id, self.datetime, self.code, self.amount, self.price, self.towards, self.type,
-            self.order_id, self.account_cookie, self.status)
+            self.realorder_id,
+            self.datetime,
+            self.code,
+            self.amount,
+            self.price,
+            self.towards,
+            self.type,
+            self.order_id,
+            self.account_cookie,
+            self.status
+        )
 
     @property
     def status(self):
 
         # 以下几个都是最终状态 并且是外部动作导致的
-        if self._status in [ORDER_STATUS.FAILED, ORDER_STATUS.NEXT, ORDER_STATUS.SETTLED, ORDER_STATUS.CANCEL_ALL,
+        if self._status in [ORDER_STATUS.FAILED,
+                            ORDER_STATUS.NEXT,
+                            ORDER_STATUS.SETTLED,
+                            ORDER_STATUS.CANCEL_ALL,
                             ORDER_STATUS.CANCEL_PART]:
             return self._status
 
@@ -215,28 +252,44 @@ class SQ_Order():
         Arguments:
             amount {[type]} -- [description]
         """
+        if self.status in [ORDER_STATUS.SUCCESS_PART, ORDER_STATUS.QUEUED]:
+            trade_amount = int(trade_amount)
+            trade_id = str(trade_id)
 
-        trade_amount = int(trade_amount)
-        trade_id = str(trade_id)
+            if trade_amount < 1:
 
-        if trade_amount < 1:
-
-            self._status = ORDER_STATUS.NEXT
-        else:
-            if trade_id not in self.trade_id:
-                trade_price = float(trade_price)
-
-                trade_time = str(trade_time)
-
-                self.trade_id.append(trade_id)
-                self.trade_price = (self.trade_price * self.trade_amount +
-                                    trade_price * trade_amount) / (self.trade_amount + trade_amount)
-                self.trade_amount += trade_amount
-                self.trade_time.append(trade_time)
-                self.callback(self.code, trade_id, self.order_id, self.realorder_id,
-                              trade_price, trade_amount, self.towards, trade_time)
+                self._status = ORDER_STATUS.NEXT
             else:
-                pass
+                if trade_id not in self.trade_id:
+                    trade_price = float(trade_price)
+
+                    trade_time = str(trade_time)
+
+                    self.trade_id.append(trade_id)
+                    self.trade_price = (
+                                               self.trade_price * self.trade_amount +
+                                               trade_price * trade_amount
+                                       ) / (
+                                               self.trade_amount + trade_amount
+                                       )
+                    self.trade_amount += trade_amount
+                    self.trade_time.append(trade_time)
+                    self.callback(
+                        self.code,
+                        trade_id,
+                        self.order_id,
+                        self.realorder_id,
+                        trade_price,
+                        trade_amount,
+                        self.towards,
+                        trade_time
+                    )
+                else:
+                    pass
+        else:
+            raise RuntimeError(
+                'ORDER STATUS {} CANNNOT TRADE'.format(self.status)
+            )
 
     def queued(self, realorder_id):
         self.realorder_id = realorder_id
@@ -274,7 +327,9 @@ class SQ_Order():
 
     # 对象转变成 dfs
     def to_df(self):
-        return pd.DataFrame([vars(self), ])
+        return pd.DataFrame([
+            vars(self),
+        ])
 
     # 🛠todo 建议取消，直接调用var？
 
@@ -370,22 +425,30 @@ class SQ_Order():
         self.code = str(otgOrder.get('instrument_id')).upper()
         self.offset = otgOrder.get('offset')
         self.direction = otgOrder.get('direction')
-        self.towards = 'ORDER_DIRECTION.{}_{}'.format(
-            self.offset, self.direction)
+        self.towards = eval('ORDER_DIRECTION.{}_{}'.format(
+            self.direction,
+            self.offset
+        ))
         self.amount = otgOrder.get('volume_orign')
         self.trade_amount = self.amount - otgOrder.get('volume_left')
         self.price = otgOrder.get('limit_price')
         self.order_model = eval(
-            'ORDER_MODEL.{}'.format(otgOrder.get('price_type')))
+            'ORDER_MODEL.{}'.format(otgOrder.get('price_type'))
+        )
         self.time_condition = otgOrder.get('time_condition')
-        self.datetime = SQ_util_stamp2datetime(
-            int(otgOrder.get('insert_date_time')))
+        if otgOrder.get('insert_date_time') == 0:
+            self.datetime = 0
+        else:
+            self.datetime = SQ_util_stamp2datetime(
+                int(otgOrder.get('insert_date_time'))
+            )
         self.sending_time = self.datetime
         self.volume_condition = otgOrder.get('volume_condition')
         self.message = otgOrder.get('last_msg')
 
         self._status = ORDER_STATUS.NEW
-        if '已撤单' in self.message or '拒绝' in self.message:
+        if '已撤单' in self.message or '拒绝' in self.message or '仓位不足' in self.message:
+            # 仓位不足:  一般是平今/平昨仓位不足
             self._status = ORDER_STATUS.FAILED
         self.realorder_id = otgOrder.get('exchange_order_id')
         return self
@@ -523,30 +586,44 @@ class SQ_OrderQueue():  # also the order tree ？？ what's the tree means?
         :return: dataframe
         '''
         try:
-            return [item for item in self.order_list.values() if
-                    item.status in [ORDER_STATUS.QUEUED, ORDER_STATUS.NEXT, ORDER_STATUS.SUCCESS_PART]]
+            return [
+                item for item in self.order_list.values() if item.status in [
+                    ORDER_STATUS.QUEUED,
+                    ORDER_STATUS.NEXT,
+                    ORDER_STATUS.SUCCESS_PART
+                ]
+            ]
         except:
             return []
 
     @property
     def failed(self):
         try:
-            return [item for item in self.order_list.values() if item.status in [ORDER_STATUS.FAILED]]
+            return [
+                item for item in self.order_list.values()
+                if item.status in [ORDER_STATUS.FAILED]
+            ]
         except:
             return []
 
     @property
     def canceled(self):
         try:
-            return [item for item in self.order_list.values() if
-                    item.status in [ORDER_STATUS.CANCEL_ALL, ORDER_STATUS.CANCEL_PART]]
+            return [
+                item for item in self.order_list.values() if item.status in
+                                                             [ORDER_STATUS.CANCEL_ALL,
+                                                              ORDER_STATUS.CANCEL_PART]
+            ]
         except:
             return []
 
     @property
     def untrade(self):
         try:
-            return [item for item in self.order_list.values() if item.status in [ORDER_STATUS.QUEUED]]
+            return [
+                item for item in self.order_list.values()
+                if item.status in [ORDER_STATUS.QUEUED]
+            ]
         except:
             return []
 

@@ -1,0 +1,13 @@
+#QA_risk
+#QA_TDX
+#QA_Settings
+#QA_Logs
+#QA_tdx_adv
+#market_preset
+#QAShiPaneBroker
+QATTSBroker
+#QAsql
+#QAAccount
+#QAPortfolio
+#QAMarket
+#QAUser

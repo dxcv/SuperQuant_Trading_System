@@ -110,8 +110,14 @@ if sys.version_info.major != 3 or sys.version_info.minor not in [4, 5, 6, 7, 8]:
 
 #
 # import ALL
-__all__ = ['SQData','SQDatabase','SQEngine','SQFetch','SQSetting','SQSU','SQUtil']
+__all__ = ['SQARP','SQData','SQDatabase','SQEngine','SQFetch','SQMarket','SQSetting','SQSU','SQUtil']
 from SuperQuant import *
+## import SQARP
+from SuperQuant.SQARP import SQAccount
+from SuperQuant.SQARP import SQPortfolio
+from SuperQuant.SQARP import SQRisk
+from SuperQuant.SQARP import SQStrategy
+from SuperQuant.SQARP import SQUser
 ## import SQData
 from SuperQuant.SQData import base_datastruct
 from SuperQuant.SQData import data_fq

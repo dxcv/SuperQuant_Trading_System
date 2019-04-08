@@ -1,7 +1,5 @@
 # coding:utf-8
 
-
-
 from SuperQuant.SQARP.SQAccount import SQ_Account
 from SuperQuant.SQSetting.SQParameter import (AMOUNT_MODEL, FREQUENCE, MARKET_TYPE,
                                           ORDER_DIRECTION, ORDER_MODEL)
