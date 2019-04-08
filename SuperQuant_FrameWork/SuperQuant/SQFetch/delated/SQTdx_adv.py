@@ -1,9 +1,32 @@
 # coding:utf-8
+#
+# The MIT License (MIT)
+#
+# Copyright (c) 2016-2018 yutiansut/SuperQuant
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
 
 import datetime
 import queue
 import time
+import click
 from concurrent.futures import ThreadPoolExecutor
 from threading import Thread, Timer
 
@@ -12,7 +35,7 @@ from pytdx.hq import TdxHq_API
 
 from SuperQuant.SQUtil.SQDate_trade import SQ_util_if_tradetime
 from SuperQuant.SQUtil.SQSetting import DATABASE, stock_ip_list
-from SuperQuant.SQDatabase.SQDBSetting import SQ_util_mongo_sort_ASCENDING
+from SuperQuant.SQUtil.SQSql import SQ_util_sql_mongo_sort_ASCENDING
 from SuperQuant.SQUtil.SQTransform import SQ_util_to_json_from_pandas
 
 
@@ -23,14 +46,14 @@ from SuperQuant.SQUtil.SQTransform import SQ_util_to_json_from_pandas
 
 
 class SQ_Tdx_Executor():
-    def __init__(self, thread_num=2, *args, **kwargs):
+    def __init__(self, thread_num=2, timeout=1, *args, **kwargs):
         self.thread_num = thread_num
         self._queue = queue.Queue(maxsize=200)
         self.api_no_connection = TdxHq_API()
         self._api_worker = Thread(
             target=self.api_worker, args=(), name='API Worker')
         self._api_worker.start()
-
+        self.timeout = timeout
         self.executor = ThreadPoolExecutor(self.thread_num)
 
     def __getattr__(self, item):
@@ -53,8 +76,12 @@ class SQ_Tdx_Executor():
 
         api = TdxHq_API(raise_exception=True, auto_retry=False)
         _time = datetime.datetime.now()
+        # print(self.timeout)
         try:
-            with api.connect(ip, port, time_out=0.05):
+            with api.connect(ip, port, time_out=1):
+                res = api.get_security_list(0, 1)
+                # print(res)
+                # print(len(res))
                 if len(api.get_security_list(0, 1)) > 800:
                     return (datetime.datetime.now() - _time).total_seconds()
                 else:
@@ -113,10 +140,10 @@ class SQ_Tdx_Executor():
         if self._queue.qsize() < 80:
             for item in stock_ip_list:
                 _sec = self._test_speed(ip=item['ip'], port=item['port'])
-                if _sec < 0.1:
+                if _sec < self.timeout*3:
                     try:
                         self._queue.put(TdxHq_API(heartbeat=False).connect(
-                            ip=item['ip'], port=item['port'], time_out=0.05))
+                            ip=item['ip'], port=item['port'], time_out=self.timeout*2))
                     except:
                         pass
         else:
@@ -124,7 +151,7 @@ class SQ_Tdx_Executor():
             Timer(0, self.api_worker).start()
         Timer(300, self.api_worker).start()
 
-    def _singal_job(self, context, id_, time_out=0.5):
+    def _singal_job(self, context, id_, time_out=0.7):
         try:
             _api = self.get_available()
 
@@ -203,13 +230,13 @@ class SQ_Tdx_Executor():
         database.insert_many(SQ_util_to_json_from_pandas(data))
 
 
-def get_bar():
-
+def get_bar(timeout=1, sleep=1, thread=2):
+    sleep = int(sleep)
     _time1 = datetime.datetime.now()
     from SuperQuant.SQFetch.SQQuery_Advance import SQ_fetch_stock_block_adv
     code = SQ_fetch_stock_block_adv().code
     print(len(code))
-    x = SQ_Tdx_Executor()
+    x = SQ_Tdx_Executor(timeout=float(timeout), thread_num=int(thread))
     print(x._queue.qsize())
     print(x.get_available())
 
@@ -220,7 +247,7 @@ def get_bar():
 
             print('Time {}'.format(
                 (datetime.datetime.now() - _time).total_seconds()))
-            time.sleep(1)
+            time.sleep(sleep)
             print('Connection Pool NOW LEFT {} Available IP'.format(
                 x._queue.qsize()))
             print('Program Last Time {}'.format(
@@ -229,7 +256,7 @@ def get_bar():
             return data
         else:
             print('Not Trading time {}'.format(_time))
-            time.sleep(1)
+            time.sleep(sleep)
 
 
 def get_day_once():
@@ -241,13 +268,17 @@ def get_day_once():
     return x.get_security_bar_concurrent(code, 'day', 1)
 
 
-def bat():
-
+@click.command()
+@click.option('--timeout', default=0.2, help='timeout param')
+@click.option('--sleep', default=1, help='sleep step')
+@click.option('--thread', default=2, help='thread nums')
+def bat(timeout=0.2, sleep=1, thread=2):
+    sleep = int(sleep)
     _time1 = datetime.datetime.now()
     from SuperQuant.SQFetch.SQQuery_Advance import SQ_fetch_stock_block_adv
     code = SQ_fetch_stock_block_adv().code
     print(len(code))
-    x = SQ_Tdx_Executor()
+    x = SQ_Tdx_Executor(timeout=float(timeout), thread_num=int(thread))
     print(x._queue.qsize())
     print(x.get_available())
 
@@ -258,7 +289,7 @@ def bat():
     database.create_index([('code', SQ_util_sql_mongo_sort_ASCENDING),
                            ('datetime', SQ_util_sql_mongo_sort_ASCENDING)])
 
-    for i in range(100000):
+    while True:
         _time = datetime.datetime.now()
         if SQ_util_if_tradetime(_time):  # 如果在交易时间
             data = x.get_realtime_concurrent(code)
@@ -268,14 +299,14 @@ def bat():
 
             print('Time {}'.format(
                 (datetime.datetime.now() - _time).total_seconds()))
-            time.sleep(1)
+            time.sleep(sleep)
             print('Connection Pool NOW LEFT {} Available IP'.format(
                 x._queue.qsize()))
             print('Program Last Time {}'.format(
                 (datetime.datetime.now() - _time1).total_seconds()))
         else:
             print('Not Trading time {}'.format(_time))
-            time.sleep(1)
+            time.sleep(sleep)
 
 
 if __name__ == '__main__':

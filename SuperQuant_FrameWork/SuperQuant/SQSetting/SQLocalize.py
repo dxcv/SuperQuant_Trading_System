@@ -16,7 +16,7 @@ import os
 ### TODO:添加到UI配置
 path = os.path.expanduser('~')
 # path = os.path.abspath('D:/')
-sq_path = '{}{}{}'.format(path, os.sep, '.SuperQuant')
+sq_path = '{}{}{}'.format(path, os.sep, '.superquant')
 
 
 def generate_path(name):

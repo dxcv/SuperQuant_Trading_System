@@ -2,9 +2,7 @@
 
 
 from multiprocessing import Pool, cpu_count
-
-
-class ParallelSim(object):
+class Parallelism(object):
     """ 多进程map类
         pl = ParallelSim()
         pl.add(yourFunc, yourIter)

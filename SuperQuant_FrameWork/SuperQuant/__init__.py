@@ -145,7 +145,7 @@ from SuperQuant.SQSU import save_account
 from SuperQuant.SQSU import save_financialfiles
 from SuperQuant.SQSU import user
 ## import SQUtil
-from SuperQuant.SQUtil import ParallelSim
+from SuperQuant.SQUtil import Parallelism
 from SuperQuant.SQUtil import SQAuth
 from SuperQuant.SQUtil import SQBar
 from SuperQuant.SQUtil import SQCfg
