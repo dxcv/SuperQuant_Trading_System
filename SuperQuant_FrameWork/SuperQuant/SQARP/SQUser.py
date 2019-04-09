@@ -464,7 +464,6 @@ class SQ_User():
                 }
             )
         if res is None:
-
             if self.client.find_one({'username': self.username}) is None:
                 self.client.insert_one(self.message)
                 return self

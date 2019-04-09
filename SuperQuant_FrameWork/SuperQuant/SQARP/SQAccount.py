@@ -55,7 +55,7 @@ class SQ_Account(SQ_Worker):
     - 只维护 cash/history两个字段 剩下的全部惰性计算
 
 
-    SQ_Account 是SuperQuant的最小不可分割单元之一
+    SQ_Account 
 
     SQ_Account是账户类 需要兼容股票/期货/指数
     SQ_Account继承自SQ_Worker 可以被事件驱动

@@ -6,7 +6,7 @@ import traceback
 
 import future
 
-from SUPERQUANT.SQFetch.SQQuery_Async import SQ_fetch_stock_day
+from SuperQuant.SQFetch.SQQuery_Async import SQ_fetch_stock_day
 
 
 """SuperQuant 异步引擎
