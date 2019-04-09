@@ -1,3 +1,4 @@
+--2019_04_08
 #QA_risk
 #QA_TDX
 #QA_Settings
@@ -11,3 +12,10 @@ QATTSBroker
 #QAPortfolio
 #QAMarket
 #QAUser
+
+--2019_04_09
+#QARisk
+QA_Logs
+QASetting
+#QAAccount
+QATTSBroker

@@ -55,7 +55,7 @@ class SQ_Account(SQ_Worker):
     - 只维护 cash/history两个字段 剩下的全部惰性计算
 
 
-    SQ_Account 
+    SQ_Account 是SuperQuant的最小不可分割单元之一
 
     SQ_Account是账户类 需要兼容股票/期货/指数
     SQ_Account继承自SQ_Worker 可以被事件驱动
@@ -229,7 +229,8 @@ class SQ_Account(SQ_Worker):
             'commission',  # 手续费
             'tax',  # 税
             'message',  # 备注
-            'frozen'  # 冻结资金
+            'frozen',  # 冻结资金.
+            'direction'  # 方向
         ]
         ########################################################################
         # 信息类:
@@ -253,7 +254,7 @@ class SQ_Account(SQ_Worker):
         self.tax_coeff = tax_coeff
         self.datetime = None
         self.running_time = datetime.datetime.now()
-        self.quantaxis_version = __version__
+        self.superquant_version = __version__
         self.client = DATABASE.account
         self.start_ = start
         self.end_ = end
@@ -390,8 +391,8 @@ class SQ_Account(SQ_Worker):
             'running_time':
                 str(datetime.datetime.now())
                 if self.running_time is None else str(self.running_time),
-            'quantaxis_version':
-                self.quantaxis_version,
+            'superquant_version':
+                self.superquant_version,
             'running_environment':
                 self.running_environment,
             'start_date':
@@ -762,6 +763,36 @@ class SQ_Account(SQ_Worker):
                           hold_available]).groupby('code').sum().sort_index(
         ).apply(lambda x: x if x > 0 else None).dropna()
 
+    def current_hold_price(self):
+        """计算目前持仓的成本  用于模拟盘和实盘查询
+
+        Returns:
+            [type] -- [description]
+        """
+
+        def weights(x):
+            n = len(x)
+            res = 1
+            while res > 0 or res < 0:
+                res = sum(x[:n]['amount'])
+                n = n - 1
+
+            x = x[n + 1:]
+
+            if sum(x['amount']) != 0:
+                return np.average(
+                    x['price'],
+                    weights=x['amount'],
+                    returned=True
+                )
+            else:
+                return np.nan
+
+        return self.history_table.set_index(
+            'datetime',
+            drop=False
+        ).sort_index().groupby('code').apply(weights).dropna()
+
     def hold_price(self, datetime=None):
         """计算持仓成本  如果给的是日期,则返回当日开盘前的持仓
 
@@ -967,7 +998,6 @@ class SQ_Account(SQ_Worker):
                     # amount  冻结的数量
 
                     2018-12-31                    
-
                     """
 
                     self.frozen[code][str(trade_towards)]['money'] = (
@@ -1077,7 +1107,8 @@ class SQ_Account(SQ_Worker):
                     commission_fee,
                     tax_fee,
                     message,
-                    frozen_money
+                    frozen_money,
+                    trade_towards
                 ]
             )
 
@@ -1591,7 +1622,7 @@ class SQ_Account(SQ_Worker):
         self.cash = message['cash']
         self.time_index_max = message['trade_index']
         self.running_time = message.get('running_time', None)
-        self.quantaxis_version = message.get('quantaxis_version', None)
+        self.superquant_version = message.get('superquant_version', None)
         self.running_environment = message.get(
             'running_environment',
             RUNNING_ENVIRONMENT.BACKETEST
