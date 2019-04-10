@@ -1,6 +1,5 @@
 # coding=utf-8
 
-
 import time
 from functools import lru_cache
 
@@ -10,10 +9,16 @@ from SuperQuant.SQEngine.SQEvent import SQ_Event
 from SuperQuant.SQFetch.SQQuery_Advance import SQ_fetch_stock_day_adv, SQ_fetch_stock_min_adv
 from SuperQuant.SQMarket.SQBacktestBroker import SQ_BacktestBroker
 from SuperQuant.SQMarket.SQMarket import SQ_Market
-from SuperQuant.SQUtil.SQParameter import (AMOUNT_MODEL, BROKER_EVENT,
-                                           BROKER_TYPE, ENGINE_EVENT, FREQUENCE,
-                                           MARKET_TYPE, ORDER_DIRECTION,
-                                           ORDER_MODEL)
+from SuperQuant.SQUtil.SQParameter import (
+    AMOUNT_MODEL,
+    BROKER_EVENT,
+    BROKER_TYPE,
+    ENGINE_EVENT,
+    FREQUENCE,
+    MARKET_TYPE,
+    ORDER_DIRECTION,
+    ORDER_MODEL
+)
 
 from SuperQuant.SQUtil import SQ_util_log_info, SQ_Setting, SQ_util_mongo_initial
 
@@ -44,7 +49,18 @@ class SQ_Backtest():
 
     """
 
-    def __init__(self, market_type, frequence, start, end, code_list, commission_fee, ):
+    def __init__(
+            self,
+            market_type,
+            frequence,
+            start,
+            end,
+            code_list,
+            commission_fee,
+            username='superquant',
+            password='superquant',
+            portfolio_cookie='sqtestportfolio'
+    ):
         """
         :param market_type: 回测的市场 MARKET_TYPE.STOCK_CN ，
         :param frequence: 'day' '1min' '5min' '15min' '30min' '60min'
@@ -53,11 +69,10 @@ class SQ_Backtest():
         :param code_list: 股票代码池
         :param commission_fee: 交易佣金
         """
-        self.user = SQ_User()
+        self.user = SQ_User(username=username, password=password)
         self.if_settled = False
         self.account = None
-        self.portfolio = None
-
+        self.portfolio = self.user.new_portfolio(portfolio_cookie)
         # 🛠todo market_type 应该放在 SQ_Market对象里的一个属性
         self.market = SQ_Market(if_start_orderthreading=True)
         self.market_type = market_type
@@ -77,11 +92,19 @@ class SQ_Backtest():
         if self.market_type is MARKET_TYPE.STOCK_CN and self.frequence is FREQUENCE.DAY:
             # 获取日线级别的回测数据
             self.ingest_data = SQ_fetch_stock_day_adv(
-                self.code_list, self.start, self.end).to_qfq().panel_gen
-        elif self.market_type is MARKET_TYPE.STOCK_CN and self.frequence[-3:] == 'min':
+                self.code_list,
+                self.start,
+                self.end
+            ).to_qfq().panel_gen
+        elif self.market_type is MARKET_TYPE.STOCK_CN and self.frequence[
+                                                          -3:] == 'min':
             # 获取分钟级别的回测数据
             self.ingest_data = SQ_fetch_stock_min_adv(
-                self.code_list, self.start, self.end, self.frequence).to_qfq().panel_gen
+                self.code_list,
+                self.start,
+                self.end,
+                self.frequence
+            ).to_qfq().panel_gen
 
         else:
             SQ_util_log_info("{} 的市场类型没有实现！".format(market_type))
@@ -90,7 +113,7 @@ class SQ_Backtest():
         """
         generate a simple account
         """
-        self.account, self.portfolio = self.user.generate_simpleaccount()
+        self.account = self.portfolio.new_account()
 
     def start_market(self):
         """
@@ -105,8 +128,11 @@ class SQ_Backtest():
         self.market.register(self.broker_name, self.broker)
 
         # 通过 broke名字 新建立一个 SQAccount 放在的中 session字典中 session 是 { 'cookie' , SQAccount }
-        self.market.login(self.broker_name,
-                          self.account.account_cookie, self.account)
+        self.market.login(
+            self.broker_name,
+            self.account.account_cookie,
+            self.account
+        )
 
         self.market._sync_orders()
 
@@ -114,54 +140,57 @@ class SQ_Backtest():
         """generator driven data flow
         """
         # 如果出现了日期的改变 才会进行结算的事件
+        print('start: running')
         _date = None
         for data in self.ingest_data:  # 对于在ingest_data中的数据
             # <class 'SuperQuant.SQData.SQDataStruct.SQ_DataStruct_Stock_day'>
             date = data.date[0]
+            print('current date : {}'.format(date))
+            print('current time : {}'.format(data.datetime[0]))
             if self.market_type is MARKET_TYPE.STOCK_CN:  # 如果是股票市场
                 if _date != date:  # 如果新的date
 
                     # 前一天的交易日已经过去
                     # 往 broker 和 account 发送 settle 事件
+
                     try:
+                        print('try to settle')
                         self.market._settle(self.broker_name)
-                        self.market.trade_engine.join()
-
-                        # time.sleep(2)
-
-
+                        self.market.next_tradeday()
                     except Exception as e:
                         raise e
             # 基金 指数 期货
-            elif self.market_type in [MARKET_TYPE.FUND_CN, MARKET_TYPE.INDEX_CN, MARKET_TYPE.FUTURE_CN]:
+            elif self.market_type in [MARKET_TYPE.FUND_CN,
+                                      MARKET_TYPE.INDEX_CN,
+                                      MARKET_TYPE.FUTURE_CN]:
+
                 self.market._settle(self.broker_name)
 
             self.broker.run(
-                SQ_Event(event_type=ENGINE_EVENT.UPCOMING_DATA, market_data=data))
+                SQ_Event(
+                    event_type=ENGINE_EVENT.UPCOMING_DATA,
+                    market_data=data
+                )
+            )
             # 生成 UPCOMING_DATA 事件放到 队列中去执行
             self.market.upcoming_data(self.broker_name, data)
 
-            self.market.trade_engine.join()
-
             _date = date
 
+        # 最后收盘的平仓
         self.market._settle(self.broker_name)
-        self.market.trade_engine.join()
-
         self.after_success()
 
     def after_success(self):
         """called when all trading fininshed, for performance analysis
         """
+        print('after success')
+        for po in self.user.portfolio_list.values():
+            for ac in po.accounts.values():
+                print(ac.hold)
 
-        for po in self.user.portfolio_list.keys():
-            for ac in self.user.get_portfolio_by_cookie(po).accounts.keys():
-                accounts = self.user.get_portfolio_by_cookie(
-                    po).get_account_by_cookie(ac)
-                print(accounts.hold)
-
-                print(accounts.history_table)
-
+                print(ac.history_table)
+                ac.save()
         self.stop()
 
     def stop(self):
@@ -172,17 +201,16 @@ class SQ_Backtest():
         self.market.trade_engine.stop()
 
 
-class BACKTEST_FRAMEWORK():
-    pass
-
-
 if __name__ == '__main__':
-    backtest = SQ_Backtest(market_type=MARKET_TYPE.STOCK_CN,
-                           frequence=FREQUENCE.DAY,
-                           start='2017-01-01',
-                           end='2017-01-31',
-                           code_list=['000001', '600010'],
-                           commission_fee=0.00015)
+    backtest = SQ_Backtest(
+        market_type=MARKET_TYPE.STOCK_CN,
+        frequence=FREQUENCE.DAY,
+        start='2017-01-01',
+        end='2017-01-10',
+        code_list=['000001',
+                   '600010'],
+        commission_fee=0.00015
+    )
     backtest._generate_account()
     backtest.start_market()
     backtest.run()
