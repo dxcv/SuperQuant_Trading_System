@@ -503,7 +503,7 @@ class SQ_Account(SQ_Worker):
         Returns:
             [type] -- [description]
         """
-        if self.start_ == None:
+        if self.end_ == None:
             if len(self.time_index_max) > 0:
                 return str(max(self.time_index_max))[0:10]
             else:
@@ -873,7 +873,6 @@ class SQ_Account(SQ_Worker):
             realorder_id=None
     ):
         """快速撮合成交接口
-
 
         此接口是一个直接可以成交的接口, 所以务必确保给出的信息是可以成交的
 
