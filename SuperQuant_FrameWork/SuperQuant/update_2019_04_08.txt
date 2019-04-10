@@ -15,7 +15,7 @@ QATTSBroker
 
 --2019_04_09
 #QARisk
-QA_Logs
-QASetting
+#QA_Logs
+#QASetting
 #QAAccount
 QATTSBroker

@@ -214,8 +214,6 @@ class SQ_Account(SQ_Worker):
         """
         super().__init__()
 
-        # warnings.warn('SuperQuant 1.0.46 has changed the init_assets ==> init_cash, please pay attention to this change if you using init_cash to initial an account class,\
-        #         ', DeprecationWarning, stacklevel=2)
         self._history_headers = [
             'datetime',  # 日期/时间
             'code',  # 品种
@@ -236,7 +234,7 @@ class SQ_Account(SQ_Worker):
         # 信息类:
 
         if user_cookie is None or portfolio_cookie is None:
-            raise RuntimeError('SuperQuant 1.3.0升级: 需要在创建Account的时候指定用户名/组合名')
+            raise RuntimeError('SuperQuant 账户生成报错: 需要在创建Account的时候指定用户名/组合名')
         self.user_cookie = user_cookie
         self.strategy_name = strategy_name
         self.portfolio_cookie = portfolio_cookie
@@ -321,13 +319,13 @@ class SQ_Account(SQ_Worker):
         self.market_preset = MARKET_PRESET()
         # if self.allow_t0 and self.allow_sellopen or self.market_type is MARKET_TYPE.FUTURE_CN:
         #     self.load_marketpreset()
-        """期货的多开/空开 ==> 资金冻结进保证金  frozen
+        """
+        期货的多开/空开 ==> 资金冻结进保证金  frozen
 
         对应平仓的时候, 释放保证金
 
         1. frozen  是一个dict :   {[code]:queue}
             key是标的 value是对应的交易queue
-
         """
 
         self.frozen = {}  # 冻结资金(保证金)
