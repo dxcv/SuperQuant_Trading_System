@@ -1733,12 +1733,12 @@ class SQ_Account(SQ_Worker):
 
 
             """
-
             self._currenttime = event.market_data.datetime[0]
             if self._market_data is None:
                 self._market_data = event.market_data
             else:
                 self._market_data = self._market_data + event.market_data
+
             self.on_bar(event)
 
             if event.callback:
@@ -1822,6 +1822,6 @@ class Account_handler():
 
 
 if __name__ == '__main__':
-    account = SQ_Account()
+    account = SQ_Account(user_cookie = 'as',portfolio_cookie = 'bs')
     # 创建一个account账户
 

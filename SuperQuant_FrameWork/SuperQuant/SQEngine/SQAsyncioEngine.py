@@ -6,7 +6,6 @@ import traceback
 
 import future
 
-from SuperQuant.SQFetch.SQQuery_Async import SQ_fetch_stock_day
 
 
 """SuperQuant 异步引擎
@@ -60,6 +59,7 @@ run_until_complete
 
 
 if __name__ == '__main__':
+    from SuperQuant.SQFetch.SQQuery_Async import SQ_fetch_stock_day
     time = datetime.datetime.now()
     SQE = SQAsync()
 

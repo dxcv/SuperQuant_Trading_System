@@ -6,15 +6,19 @@ import numpy
 import pandas as pd
 from motor.motor_asyncio import (AsyncIOMotorClient, AsyncIOMotorCollection,
                                  AsyncIOMotorCursor)
+from SuperQuant.SQUtil.SQCode import SQ_util_code_tolist
+from SuperQuant.SQUtil.SQDate import (SQ_util_date_stamp,
+                                      SQ_util_date_str2int,
+                                      SQ_util_date_valid,
+                                      SQ_util_time_stamp
+                                      )
+from SuperQuant.SQUtil.SQDict import SQ_util_dict_remove_key
+from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
+from SuperQuant.SQDatabase.SQDBSetting import SQ_util_mongo_sort_DESCENDING
+from SuperQuant.SQUtil.SQTransform import SQ_util_to_json_from_pandas
+from SuperQuant.SQUtil.SQDate_trade import trade_date_sse
 
-from SuperQuant.SQUtil import (SQ_Setting, SQ_util_code_tolist,
-                              SQ_util_date_stamp, SQ_util_date_str2int,
-                              SQ_util_date_valid, SQ_util_dict_remove_key,
-                              SQ_util_log_info,
-                              SQ_util_sql_mongo_sort_DESCENDING,
-                              SQ_util_time_stamp, SQ_util_to_json_from_pandas,
-                              trade_date_sse)
-from SuperQuant.SQUtil.SQSetting import DATABASE, DATABASE_ASYNC
+from SuperQuant.SQSetting.SQSetting import DATABASE, DATABASE_ASYNC
 
 
 
@@ -24,7 +28,6 @@ async def SQ_fetch_stock_day(code, start, end, format='numpy', frequence='day', 
     '获取股票日线'
     start = str(start)[0:10]
     end = str(end)[0:10]
-    #code= [code] if isinstance(code,str) else code
 
     # code checking
     code = SQ_util_code_tolist(code)
@@ -36,7 +39,6 @@ async def SQ_fetch_stock_day(code, start, end, format='numpy', frequence='day', 
             'code': {'$in': code}, "date_stamp": {
                 "$lte": SQ_util_date_stamp(end),
                 "$gte": SQ_util_date_stamp(start)}})
-        #res=[SQ_util_dict_remove_key(data, '_id') for data in cursor]
         try:
             res = pd.DataFrame([item async for item in cursor])
         except SyntaxError:
@@ -127,8 +129,4 @@ if __name__ == "__main__":
     ))
 
     print(res)
-
-    # loop = asyncio.get_event_loop()
-    # print(id(loop))
-    # loop 内存地址一样 没有被销毁
 

@@ -23,7 +23,7 @@ from SuperQuant.SQMarket.SQOrderHandler import SQ_OrderHandler
 from SuperQuant.SQUtil.SQDate import SQ_util_to_datetime
 from SuperQuant.SQUtil.SQDate_trade import SQ_util_get_next_day
 from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
-from SuperQuant.SQUtil.SQParameter import (AMOUNT_MODEL, BROKER_EVENT, ORDER_STATUS,
+from SuperQuant.SQSetting.SQParameter import (AMOUNT_MODEL, BROKER_EVENT, ORDER_STATUS,
                                            BROKER_TYPE, ENGINE_EVENT, FREQUENCE,
                                            MARKET_EVENT, MARKET_TYPE,
                                            ORDER_DIRECTION, ORDER_MODEL)

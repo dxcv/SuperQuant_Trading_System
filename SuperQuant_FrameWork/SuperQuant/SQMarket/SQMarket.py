@@ -7,16 +7,19 @@ import sched
 import threading
 
 from SuperQuant.SQARP.SQAccount import SQ_Account
+
 from SuperQuant.SQEngine.SQEvent import SQ_Event
 from SuperQuant.SQEngine.SQTask import SQ_Task
+
 from SuperQuant.SQMarket.SQBacktestBroker import SQ_BacktestBroker
-from SuperQuant.SQMarket.SQOrder import SQ_Order
 from SuperQuant.SQMarket.SQOrderHandler import SQ_OrderHandler
 from SuperQuant.SQMarket.SQRandomBroker import SQ_RandomBroker
 from SuperQuant.SQMarket.SQRealBroker import SQ_RealBroker
 from SuperQuant.SQMarket.SQShipaneBroker import SQ_SPEBroker
 from SuperQuant.SQMarket.SQSimulatedBroker import SQ_SimulatedBroker
 from SuperQuant.SQMarket.SQTTSBroker import SQ_TTSBroker
+
+from SuperQuant.SQMarket.SQOrder import SQ_Order
 from SuperQuant.SQMarket.SQTrade import SQ_Trade
 from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
 from SuperQuant.SQUtil.SQParameter import (
@@ -36,6 +39,7 @@ from SuperQuant.SQUtil.SQRandom import SQ_util_random_with_topic
 
 
 class SQ_Market(SQ_Trade):
+
     """
     SuperQuant MARKET 部分
 

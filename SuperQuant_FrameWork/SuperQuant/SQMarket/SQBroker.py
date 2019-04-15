@@ -1,6 +1,5 @@
 # coding :utf-8
 
-
 """
 需要一个可以被修改和继承的基类
 
@@ -41,19 +40,79 @@ class SQ_Broker(SQ_Worker):
         super().__init__()
         self.type = EVENT_TYPE.BROKER_EVENT
         self.name = None
-        self.fillorder_headers = ['name', 'datetime', 'towards', 'price',
-                                  'amount', 'money', 'trade_id', 'order_id', 'code', 'shareholder', 'other']
-        self.holding_headers = ['code', 'name', 'hoding_price', 'price', 'pnl', 'amount',
-                                'sell_available', 'pnl_money', 'holdings', 'total_amount', 'lastest_amounts', 'shareholder']
-        self.askorder_headers = ['code', 'towards', 'price', 'amount', 'transaction_price',
-                                 'transaction_amount', 'status', 'order_time', 'order_id', 'id', 'code', 'shareholders']
-        self.orderstatus_headers = ['account_cookie', 'order_time', 'code', 'name', 'towards', 'trade_price', 'order_price',
-                                    'status', 'order_amount', 'trade_amount', 'cancel_amount', 'realorder_id']
-        self.dealstatus_headers = ['account_cookie', 'trade_time', 'code', 'name', 'towards',
-                                   'trade_amount', 'trade_price', 'trade_money', 'realorder_id', 'trade_id']
+        self.fillorder_headers = [
+            'name',
+            'datetime',
+            'towards',
+            'price',
+            'amount',
+            'money',
+            'trade_id',
+            'order_id',
+            'code',
+            'shareholder',
+            'other'
+        ]
+        self.holding_headers = [
+            'code',
+            'name',
+            'hoding_price',
+            'price',
+            'pnl',
+            'amount',
+            'sell_available',
+            'pnl_money',
+            'holdings',
+            'total_amount',
+            'lastest_amounts',
+            'shareholder'
+        ]
+        self.askorder_headers = [
+            'code',
+            'towards',
+            'price',
+            'amount',
+            'transaction_price',
+            'transaction_amount',
+            'status',
+            'order_time',
+            'order_id',
+            'id',
+            'code',
+            'shareholders'
+        ]
+        self.orderstatus_headers = [
+            'account_cookie',
+            'order_time',
+            'code',
+            'name',
+            'towards',
+            'trade_price',
+            'order_price',
+            'status',
+            'order_amount',
+            'trade_amount',
+            'cancel_amount',
+            'realorder_id'
+        ]
+        self.dealstatus_headers = [
+            'account_cookie',
+            'trade_time',
+            'code',
+            'name',
+            'towards',
+            'trade_amount',
+            'trade_price',
+            'trade_money',
+            'realorder_id',
+            'trade_id'
+        ]
 
     def __repr__(self):
-        return '< SQ_Broker {} thread {} >'.format(self.name, threading.current_thread().ident)
+        return '< SQ_Broker {} thread {} >'.format(
+            self.name,
+            threading.current_thread().ident
+        )
 
     @abstractmethod
     def receive_order(self, event):
@@ -130,20 +189,33 @@ class SQ_Broker(SQ_Worker):
 
                 order.date = order.datetime[0:10]
                 order.datetime = '{} 09:30:00'.format(order.date)
-            elif order.frequence in [FREQUENCE.ONE_MIN, FREQUENCE.FIVE_MIN, FREQUENCE.FIFTEEN_MIN, FREQUENCE.THIRTY_MIN, FREQUENCE.SIXTY_MIN]:
-                exact_time = str(datetime.datetime.strptime(
-                    str(order.datetime), '%Y-%m-%d %H:%M:%S') + datetime.timedelta(minutes=1))
+            elif order.frequence in [FREQUENCE.ONE_MIN,
+                                     FREQUENCE.FIVE_MIN,
+                                     FREQUENCE.FIFTEEN_MIN,
+                                     FREQUENCE.THIRTY_MIN,
+                                     FREQUENCE.SIXTY_MIN]:
+                exact_time = str(
+                    datetime.datetime
+                    .strptime(str(order.datetime),
+                              '%Y-%m-%d %H:%M:%S') +
+                    datetime.timedelta(minutes=1)
+                )
                 order.date = exact_time[0:10]
                 order.datetime = exact_time
             self.market_data = self.get_market(order)
             if self.market_data is None:
                 return order
-            order.price = (float(self.market_data["high"]) +
-                           float(self.market_data["low"])) * 0.5
+            order.price = (
+                float(self.market_data["high"]) +
+                float(self.market_data["low"])
+            ) * 0.5
         elif order.order_model == ORDER_MODEL.NEXT_OPEN:
             try:
-                exact_time = str(datetime.datetime.strptime(
-                    str(order.datetime), '%Y-%m-%d %H-%M-%S') + datetime.timedelta(day=1))
+                exact_time = str(
+                    datetime.datetime
+                    .strptime(str(order.datetime),
+                              '%Y-%m-%d %H-%M-%S') + datetime.timedelta(day=1)
+                )
                 order.date = exact_time[0:10]
                 order.datetime = '{} 09:30:00'.format(order.date)
             except:
@@ -169,14 +241,25 @@ class SQ_Broker(SQ_Worker):
         elif order.order_model == ORDER_MODEL.STRICT:
             '加入严格模式'
             if order.frequence is FREQUENCE.DAY:
-                exact_time = str(datetime.datetime.strptime(
-                    order.datetime, '%Y-%m-%d %H-%M-%S') + datetime.timedelta(day=1))
+                exact_time = str(
+                    datetime.datetime
+                    .strptime(order.datetime,
+                              '%Y-%m-%d %H-%M-%S') + datetime.timedelta(day=1)
+                )
 
                 order.date = exact_time[0:10]
                 order.datetime = '{} 09:30:00'.format(order.date)
-            elif order.frequence in [FREQUENCE.ONE_MIN, FREQUENCE.FIVE_MIN, FREQUENCE.FIFTEEN_MIN, FREQUENCE.THIRTY_MIN, FREQUENCE.SIXTY_MIN]:
-                exact_time = str(datetime.datetime.strptime(
-                    order.datetime, '%Y-%m-%d %H-%M-%S') + datetime.timedelta(minute=1))
+            elif order.frequence in [FREQUENCE.ONE_MIN,
+                                     FREQUENCE.FIVE_MIN,
+                                     FREQUENCE.FIFTEEN_MIN,
+                                     FREQUENCE.THIRTY_MIN,
+                                     FREQUENCE.SIXTY_MIN]:
+                exact_time = str(
+                    datetime.datetime
+                    .strptime(order.datetime,
+                              '%Y-%m-%d %H-%M-%S') +
+                    datetime.timedelta(minute=1)
+                )
                 order.date = exact_time[0:10]
                 order.datetime = exact_time
             self.market_data = self.get_market(order)
@@ -191,6 +274,7 @@ class SQ_Broker(SQ_Worker):
 
 
 class SQ_BROKER_EVENT(SQ_Event):
+
     def __init__(self, *args, **kwargs):
         super().__init__()
 
