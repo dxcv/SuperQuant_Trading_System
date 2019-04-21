@@ -10,24 +10,24 @@ import configparser
 import pandas as pd
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from QUANTAXIS.QAMarket.QAOrderHandler import QA_OrderHandler
-from QUANTAXIS.QAFetch.QATdx import (QA_fetch_get_future_day,
-                                     QA_fetch_get_future_min,
-                                     QA_fetch_get_index_day,
-                                     QA_fetch_get_index_min,
-                                     QA_fetch_get_stock_day,
-                                     QA_fetch_get_stock_min)
-from QUANTAXIS.QAMarket.common import (
+from SuperQuant.SQMarket.SQOrderHandler import SQ_OrderHandler
+from SuperQuant.SQFetch.SQTdx import (SQ_fetch_get_future_day,
+                                     SQ_fetch_get_future_min,
+                                     SQ_fetch_get_index_day,
+                                     SQ_fetch_get_index_min,
+                                     SQ_fetch_get_stock_day,
+                                     SQ_fetch_get_stock_min)
+from SuperQuant.SQMarket.common import (
     cn_en_compare,
     order_status_cn_en,
     trade_towards_cn_en
 )
-from QUANTAXIS.QAMarket.QABroker import QA_Broker
-from QUANTAXIS import QAFetch
-from QUANTAXIS.QAUtil.QALogs import QA_util_log_info
-from QUANTAXIS.QAEngine.QAEvent import QA_Event
-from QUANTAXIS.QAUtil.QAParameter import ORDER_DIRECTION, MARKET_TYPE, ORDER_MODEL, TRADE_STATUS, FREQUENCE, BROKER_EVENT, BROKER_TYPE, MARKET_EVENT
-from QUANTAXIS.QAUtil.QASetting import setting_path
+from SuperQuant.SQMarket.SQBroker import SQ_Broker
+from SuperQuant import SQFetch
+from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
+from SuperQuant.SQEngine.SQEvent import SQ_Event
+from SuperQuant.SQSetting.SQParameter import ORDER_DIRECTION, MARKET_TYPE, ORDER_MODEL, TRADE_STATUS, FREQUENCE, BROKER_EVENT, BROKER_TYPE, MARKET_EVENT
+from SuperQuant.SQSetting.SQSetting import setting_path
 
 
 class TTSConfig(configparser.ConfigParser):
@@ -75,31 +75,31 @@ class TTSConfig(configparser.ConfigParser):
         f.close()
 
 
-class QA_TTSBroker(QA_Broker):
-    fetcher = {(MARKET_TYPE.STOCK_CN, FREQUENCE.DAY): QA_fetch_get_stock_day,
-               (MARKET_TYPE.STOCK_CN, FREQUENCE.FIFTEEN_MIN): QA_fetch_get_stock_min,
-               (MARKET_TYPE.STOCK_CN, FREQUENCE.ONE_MIN): QA_fetch_get_stock_min,
-               (MARKET_TYPE.STOCK_CN, FREQUENCE.FIVE_MIN): QA_fetch_get_stock_min,
-               (MARKET_TYPE.STOCK_CN, FREQUENCE.THIRTY_MIN): QA_fetch_get_stock_min,
-               (MARKET_TYPE.STOCK_CN, FREQUENCE.SIXTY_MIN): QA_fetch_get_stock_min,
-               (MARKET_TYPE.INDEX_CN, FREQUENCE.DAY): QA_fetch_get_index_day,
-               (MARKET_TYPE.INDEX_CN, FREQUENCE.FIFTEEN_MIN): QA_fetch_get_index_min,
-               (MARKET_TYPE.INDEX_CN, FREQUENCE.ONE_MIN): QA_fetch_get_index_min,
-               (MARKET_TYPE.INDEX_CN, FREQUENCE.FIVE_MIN): QA_fetch_get_index_min,
-               (MARKET_TYPE.INDEX_CN, FREQUENCE.THIRTY_MIN): QA_fetch_get_index_min,
-               (MARKET_TYPE.INDEX_CN, FREQUENCE.SIXTY_MIN): QA_fetch_get_index_min,
-               (MARKET_TYPE.FUND_CN, FREQUENCE.DAY): QA_fetch_get_index_day,
-               (MARKET_TYPE.FUND_CN, FREQUENCE.FIFTEEN_MIN): QA_fetch_get_index_min,
-               (MARKET_TYPE.FUND_CN, FREQUENCE.ONE_MIN): QA_fetch_get_index_min,
-               (MARKET_TYPE.FUND_CN, FREQUENCE.FIVE_MIN): QA_fetch_get_index_min,
-               (MARKET_TYPE.FUND_CN, FREQUENCE.THIRTY_MIN): QA_fetch_get_index_min,
-               (MARKET_TYPE.FUND_CN, FREQUENCE.SIXTY_MIN): QA_fetch_get_index_min}
+class SQ_TTSBroker(SQ_Broker):
+    fetcher = {(MARKET_TYPE.STOCK_CN, FREQUENCE.DAY): SQ_fetch_get_stock_day,
+               (MARKET_TYPE.STOCK_CN, FREQUENCE.FIFTEEN_MIN): SQ_fetch_get_stock_min,
+               (MARKET_TYPE.STOCK_CN, FREQUENCE.ONE_MIN): SQ_fetch_get_stock_min,
+               (MARKET_TYPE.STOCK_CN, FREQUENCE.FIVE_MIN): SQ_fetch_get_stock_min,
+               (MARKET_TYPE.STOCK_CN, FREQUENCE.THIRTY_MIN): SQ_fetch_get_stock_min,
+               (MARKET_TYPE.STOCK_CN, FREQUENCE.SIXTY_MIN): SQ_fetch_get_stock_min,
+               (MARKET_TYPE.INDEX_CN, FREQUENCE.DAY): SQ_fetch_get_index_day,
+               (MARKET_TYPE.INDEX_CN, FREQUENCE.FIFTEEN_MIN): SQ_fetch_get_index_min,
+               (MARKET_TYPE.INDEX_CN, FREQUENCE.ONE_MIN): SQ_fetch_get_index_min,
+               (MARKET_TYPE.INDEX_CN, FREQUENCE.FIVE_MIN): SQ_fetch_get_index_min,
+               (MARKET_TYPE.INDEX_CN, FREQUENCE.THIRTY_MIN): SQ_fetch_get_index_min,
+               (MARKET_TYPE.INDEX_CN, FREQUENCE.SIXTY_MIN): SQ_fetch_get_index_min,
+               (MARKET_TYPE.FUND_CN, FREQUENCE.DAY): SQ_fetch_get_index_day,
+               (MARKET_TYPE.FUND_CN, FREQUENCE.FIFTEEN_MIN): SQ_fetch_get_index_min,
+               (MARKET_TYPE.FUND_CN, FREQUENCE.ONE_MIN): SQ_fetch_get_index_min,
+               (MARKET_TYPE.FUND_CN, FREQUENCE.FIVE_MIN): SQ_fetch_get_index_min,
+               (MARKET_TYPE.FUND_CN, FREQUENCE.THIRTY_MIN): SQ_fetch_get_index_min,
+               (MARKET_TYPE.FUND_CN, FREQUENCE.SIXTY_MIN): SQ_fetch_get_index_min}
 
     def __init__(self, auto_logon=True):
         super().__init__()
         self.name = BROKER_TYPE.TTS
         self.config = TTSConfig()
-        self.order_handler = QA_OrderHandler()
+        self.order_handler = SQ_OrderHandler()
         self._endpoint = 'http://%s:%s/api' % (
             self.config.values['trade_server_ip'], self.config.values['trade_server_port'])
         self._encoding = "utf-8"
@@ -272,7 +272,7 @@ class QA_TTSBroker(QA_Broker):
             order_model = 0
 
         if market is None:
-            market = QAFetch.base.get_stock_market(code)
+            market = SQFetch.base.get_stock_market(code)
         if not isinstance(market, str):
             raise Exception('%s不正确，请检查code和market参数' % market)
         market = market.lower()
@@ -347,7 +347,7 @@ class QA_TTSBroker(QA_Broker):
         #            data['vol'] = data['volume']
         #        return data
         #    except Exception as e:
-        #        QA_util_log_info('MARKET_ENGING ERROR: {}'.format(e))
+        #        SQ_util_log_info('MARKET_ENGING ERROR: {}'.format(e))
         #        return None
         # elif event.event_type is BROKER_EVENT.RECEIVE_ORDER:
         #    self.order_handler.run(event)
@@ -374,7 +374,7 @@ class QA_TTSBroker(QA_Broker):
                 data['vol'] = data['volume']
             return data
         except Exception as e:
-            QA_util_log_info('MARKET_ENGING ERROR: {}'.format(e))
+            SQ_util_log_info('MARKET_ENGING ERROR: {}'.format(e))
             return None
 
     def query_orders(self, account_cookie, status='filled'):
@@ -415,9 +415,9 @@ class QA_TTSBroker(QA_Broker):
 
 if __name__ == "__main__":
     import os
-    import QUANTAXIS as QA
+    import SuperQuant as SQ
     print('在运行前 请先运行tdxtradeserver的 exe文件, 目录是你直接get_tts指定的 一般是 C:\tdxTradeServer')
-    api = QA_TTSBroker(auto_logon=False)
+    api = SQ_TTSBroker(auto_logon=False)
 
     print("---Ping---")
     result = api.ping()
@@ -437,6 +437,7 @@ if __name__ == "__main__":
         if str(input('我已知晓, 并下单 按y继续 n 退出'))[0] == 'y':
 
             print(api.send_order(code='000001', price=9.8, amount=100,
-                                 towards=QA.ORDER_DIRECTION.BUY, order_model=QA.ORDER_MODEL.LIMIT))
+                                 towards=SQ.ORDER_DIRECTION.BUY, order_model=SQ.ORDER_MODEL.LIMIT))
         print("---登出---")
         print(api.logoff())
+

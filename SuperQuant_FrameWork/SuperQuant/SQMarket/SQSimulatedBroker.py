@@ -1,6 +1,5 @@
 # coding :utf-8
 
-
 from SuperQuant.SQFetch.SQTdx import (SQ_fetch_get_future_day,
                                      SQ_fetch_get_future_min,
                                      SQ_fetch_get_index_day,
@@ -10,7 +9,7 @@ from SuperQuant.SQFetch.SQTdx import (SQ_fetch_get_future_day,
 from SuperQuant.SQMarket.SQBroker import SQ_Broker
 from SuperQuant.SQMarket.SQDealer import SQ_Dealer
 from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
-from SuperQuant.SQUtil.SQParameter import FREQUENCE, MARKET_TYPE
+from SuperQuant.SQSetting.SQParameter import FREQUENCE, MARKET_TYPE
 
 
 class SQ_SimulatedBroker(SQ_Broker):

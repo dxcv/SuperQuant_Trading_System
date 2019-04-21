@@ -11,7 +11,7 @@ from abc import abstractmethod
 import threading
 from SuperQuant.SQEngine.SQEvent import SQ_Event, SQ_Worker
 from SuperQuant.SQMarket.SQOrder import SQ_Order
-from SuperQuant.SQUtil.SQParameter import EVENT_TYPE, FREQUENCE, ORDER_MODEL
+from SuperQuant.SQSetting.SQParameter import EVENT_TYPE, FREQUENCE, ORDER_MODEL
 
 
 class SQ_Broker(SQ_Worker):

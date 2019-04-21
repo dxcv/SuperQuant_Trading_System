@@ -46,8 +46,8 @@ class SQ_User():
     def __init__(
             self,
             user_cookie=None,
-            username='defalut',
-            phone='defalut',
+            username='default',
+            phone='default',
             level='l1',
             utype='guests',
             password='default',
@@ -105,17 +105,17 @@ class SQ_User():
                 """
 
                 self.username = wechat_id
-                self.password = 'admin'
-        else:
-            """
-            另一种 无 WECHATID 的模式, 适合本地python的调试
-            @yutiansut
-            """
-            if self.username == 'default':
-                """基于web的初始化
-                """
-                self.username = 'admin'
-                self.password = 'admin'
+                # self.password = 'admin'
+        # else:
+        #     """
+        #     另一种 无 WECHATID 的模式, 适合本地python的调试
+        #     @yutiansut
+        #     """
+        #     if self.username == 'default':
+        #         """基于web的初始化
+        #         """
+        #         self.username = 'admin'
+        #         self.password = 'admin'
 
         self.user_cookie = SQ_util_random_with_topic(
             'USER'
@@ -321,7 +321,15 @@ class SQ_User():
 
         return list(set(self._subscribed_code))
 
-    def new_portfolio(self, portfolio_cookie=None):
+    def new_portfolio(self,
+                    portfolio_cookie = None,
+                    strategy_name = None,
+                    init_cash = 100000000,
+                    sell_available = None,
+                    market_type = MARKET_TYPE.STOCK_CN,
+                    running_environment = RUNNING_ENVIRONMENT.BACKETEST
+                      ):
+
         '''
         根据 self.user_cookie 创建一个 portfolio
         :return:
@@ -330,7 +338,11 @@ class SQ_User():
         '''
         _portfolio = SQ_Portfolio(
             user_cookie=self.user_cookie,
-            portfolio_cookie=portfolio_cookie
+            portfolio_cookie=portfolio_cookie,
+            strategy_name=strategy_name,
+            init_cash=init_cash,
+            sell_available=sell_available,
+            market_type=market_type
         )
         if _portfolio.portfolio_cookie not in self.portfolio_list.keys():
             self.portfolio_list[_portfolio.portfolio_cookie] = _portfolio
@@ -355,8 +367,7 @@ class SQ_User():
         """
 
         try:
-            return self.portfolio_list[portfolio_cookie].accounts[account_cookie
-                                                                  ]
+            return self.portfolio_list[portfolio_cookie].accounts[account_cookie]
         except:
             return None
 

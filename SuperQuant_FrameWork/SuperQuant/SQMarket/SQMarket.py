@@ -21,8 +21,10 @@ from SuperQuant.SQMarket.SQTTSBroker import SQ_TTSBroker
 
 from SuperQuant.SQMarket.SQOrder import SQ_Order
 from SuperQuant.SQMarket.SQTrade import SQ_Trade
+
 from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
-from SuperQuant.SQUtil.SQParameter import (
+
+from SuperQuant.SQSetting.SQParameter import (
     ACCOUNT_EVENT,
     AMOUNT_MODEL,
     ORDER_STATUS,
@@ -712,7 +714,7 @@ from SuperQuant.SQMarket.SQSimulatedBroker import SQ_SimulatedBroker
 from SuperQuant.SQMarket.SQTTSBroker import SQ_TTSBroker
 from SuperQuant.SQMarket.SQTrade import SQ_Trade
 from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
-from SuperQuant.SQUtil.SQParameter import (
+from SuperQuant.SQSetting.SQParameter import (
     ACCOUNT_EVENT,
     AMOUNT_MODEL,
     ORDER_STATUS,

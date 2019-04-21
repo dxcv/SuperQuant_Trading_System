@@ -179,8 +179,10 @@ class SQ_Portfolio(SQ_Account):
                 self.account_list.append(account.account_cookie)
                 account.save()
                 return account
+            else:
+                print('Portfolio:[{}]的现金少于Account:[{}]的初始现金要求'.format(self.portfolio_cookie,account.account_cookie))
         else:
-            pass
+            print('Account:[{}]已经存在, 从数据库reload'.format(self.portfolio_cookie, account.account_cookie))
 
     def drop_account(self, account_cookie):
         """删除一个account

@@ -24,14 +24,14 @@ from SuperQuant.SQMarket.SQBroker import SQ_Broker
 from SuperQuant.SQMarket.SQOrderHandler import SQ_OrderHandler
 from SuperQuant.SQUtil.SQDate import SQ_util_date_int2str
 from SuperQuant.SQUtil.SQDate_trade import SQ_util_get_order_datetime
-from SuperQuant.SQUtil.SQParameter import (
+from SuperQuant.SQSetting.SQParameter import (
     BROKER_EVENT,
     BROKER_TYPE,
     ORDER_DIRECTION,
     ORDER_MODEL,
     ORDER_STATUS
 )
-from SuperQuant.SQUtil.SQSetting import setting_path, SQ_Setting
+from SuperQuant.SQSetting.SQSetting import setting_path, SQ_Setting
 
 DEFAULT_SHIPANE_URL = 'http://127.0.0.1:8888'
 DEFAULT_SHIPANE_KEY = ''

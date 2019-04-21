@@ -9,7 +9,7 @@ from SuperQuant.SQEngine.SQEvent import SQ_Event
 from SuperQuant.SQFetch.SQQuery_Advance import SQ_fetch_stock_day_adv, SQ_fetch_stock_min_adv
 from SuperQuant.SQMarket.SQBacktestBroker import SQ_BacktestBroker
 from SuperQuant.SQMarket.SQMarket import SQ_Market
-from SuperQuant.SQUtil.SQParameter import (
+from SuperQuant.SQSetting.SQParameter import (
     AMOUNT_MODEL,
     BROKER_EVENT,
     BROKER_TYPE,
@@ -20,7 +20,9 @@ from SuperQuant.SQUtil.SQParameter import (
     ORDER_MODEL
 )
 
-from SuperQuant.SQUtil import SQ_util_log_info, SQ_Setting, SQ_util_mongo_initial
+from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
+from SuperQuant.SQSetting.SQSetting import SQ_Setting
+from SuperQuant.SQDatabase.SQMongo import SQ_util_mongo_initial
 
 
 class SQ_Backtest():

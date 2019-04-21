@@ -1,6 +1,5 @@
 # coding :utf-8
 
-
 from SuperQuant.SQMarket.SQBroker import SQ_Broker
 
 

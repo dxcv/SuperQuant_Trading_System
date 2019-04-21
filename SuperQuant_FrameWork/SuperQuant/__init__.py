@@ -174,6 +174,7 @@ from SuperQuant.SQUtil import SQText
 from SuperQuant.SQUtil import SQTransform
 from SuperQuant.SQUtil import SQWebutil
 # 导入便捷包方便调用
+from SuperQuant.SQARP import *
 from SuperQuant.SQFetch import *
 from SuperQuant.SQFetch.SQQuery_Advance import *
 import argparse

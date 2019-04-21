@@ -1,4 +1,27 @@
 # -* coding: utf-8 -*-
+#
+# The MIT License (MIT)
+#
+# Copyright (c) 2016-2018 yutiansut/SuperQuant
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
 
 """
 这里定义的是一些常用常量
@@ -75,7 +98,7 @@ class ORDER_STATUS():
     status3xx 订单存活(等待交易)
     status2xx 订单完全交易/未完全交易
     status4xx 主动撤单
-    status500 订单死亡(每日结算) 恢复临时资产    
+    status500 订单死亡(每日结算) 恢复临时资产
 
 
     订单生成(100) -- 进入待成交队列(300) -- 完全成交(200) -- 每日结算(500)-- 死亡
@@ -129,6 +152,7 @@ class RUNNING_ENVIRONMENT():
     TZERO = 't0'
     REAL = 'real'
     RANDOM = 'random'
+    TTS='tts'
 
 
 class TRADE_STATUS():
@@ -183,7 +207,7 @@ class MARKET_TYPE():
     STOCK_US = 'stock_us'  # 美股
     FUTURE_CN = 'future_cn'  # 国内期货
     OPTION_CN = 'option_cn'  # 国内期权
-    STOCKOPTION_CN = 'stockoption_cn'  # 国内个股期权
+    STOCKOPTION_CN = 'stockoption_cn'  # 个股期权
     # BITCOIN = 'bitcoin'  # 比特币
     CRYPTOCURRENCY = 'cryptocurrency'  # 加密货币(衍生货币)
     INDEX_CN = 'index_cn'  # 中国指数
@@ -205,6 +229,7 @@ class BROKER_TYPE():
     REAL = 'real'
     RANDOM = 'random'
     SHIPANE = 'shipane'
+    TTS = 'tts'
 
 
 class EVENT_TYPE():
@@ -257,7 +282,7 @@ class ACCOUNT_EVENT():
 
 class BROKER_EVENT():
     """BROKER事件
-    BROKER 
+    BROKER
     有加载数据的任务 load data
     撮合成交的任务 broker_trade
 
@@ -270,6 +295,7 @@ class BROKER_EVENT():
     DAILY_SETTLE = 'broker_dailysettle'
     RECEIVE_ORDER = 'receive_order'
     QUERY_DEAL = 'query_deal'
+    NEXT_TRADEDAY = 'next_tradeday'
 
 
 class ORDER_EVENT():
@@ -304,6 +330,7 @@ class FREQUENCE():
     SIXTY_MIN = '60min'  # 60min bar
     CURRENT = 'current'  # 当前bar
     TICK = 'tick'  # transaction
+    REALTIME = 'realtime' # 上下五档/一档
 
 
 class CURRENCY_TYPE():
@@ -381,3 +408,4 @@ DATABASE_TABLE = {
     (MARKET_TYPE.FUTURE_CN, FREQUENCE.HOUR): 'future_min',
     (MARKET_TYPE.FUTURE_CN, FREQUENCE.TICK): 'future_transaction'
 }
+
