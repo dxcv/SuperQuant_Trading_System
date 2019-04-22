@@ -13,7 +13,6 @@ from SuperQuant.SQSetting.SQParameter import MARKET_TYPE, RUNNING_ENVIRONMENT
 
 # pylint: disable=old-style-class, too-few-public-methods
 
-
 class SQ_Portfolio(SQ_Account):
     """SQ_Portfolio
     User-->Portfolio-->Account/Strategy
@@ -67,13 +66,12 @@ class SQ_Portfolio(SQ_Account):
             user_cookie=None,
             portfolio_cookie=None,
             strategy_name=None,
-            init_cash=100000000,
-            sell_available=None,
-            market_type=MARKET_TYPE.STOCK_CN,
-            running_environment=RUNNING_ENVIRONMENT.BACKETEST
+            init_cash=100000000
+            # sell_available=None,
+            # market_type=MARKET_TYPE.STOCK_CN,
+            # running_environment=RUNNING_ENVIRONMENT.BACKETEST
     ):
         self.user_cookie = user_cookie
-        # self.portfolio_cookie = SQ_util_random_with_topic('Portfolio')
         self.portfolio_cookie = SQ_util_random_with_topic(
             'Portfolio'
         ) if portfolio_cookie is None else portfolio_cookie
@@ -82,13 +80,13 @@ class SQ_Portfolio(SQ_Account):
         self.init_cash = init_cash
         self.cash = [self.init_cash]
         # 可用资金
-        self.sell_available = sell_available
+        # self.sell_available = sell_available
         #self.history = []
         self.time_index_max = []
-        self.commission_coeff = 0.005
-        self.market_type = market_type
-        self.running_environment = running_environment
-        self.cash_history = []
+        # self.commission_coeff = 0.005
+        # self.market_type = market_type
+        # self.running_environment = running_environment
+        # self.cash_history = []
         self.account_list = []
         self.client = DATABASE.portfolio
 
@@ -182,9 +180,9 @@ class SQ_Portfolio(SQ_Account):
             else:
                 print('Portfolio:[{}]的现金少于Account:[{}]的初始现金要求'.format(self.portfolio_cookie,account.account_cookie))
         else:
-            print('Account:[{}]已经存在, 从数据库reload'.format(self.portfolio_cookie, account.account_cookie))
+            print('Portfolio:[{}]已经拥有Account:[{}], 从数据库reload'.format(self.portfolio_cookie, account.account_cookie))
 
-    def drop_account(self, account_cookie):
+    def drop_account(self, account_cookie,temp = False):
         """删除一个account
 
         Arguments:
@@ -198,6 +196,7 @@ class SQ_Portfolio(SQ_Account):
             res = self.account_list.remove(account_cookie)
             self.cash.append(
                 self.cash[-1] + self.get_account_by_cookie(res).init_cash)
+            # if temp == False: self.save() # add
             return True
         else:
             raise RuntimeError(
@@ -246,7 +245,12 @@ class SQ_Portfolio(SQ_Account):
                     return temp
 
                 else:
-                    return self.new_account()
+                    return self.new_account(account_cookie = account_cookie,
+                                            init_cash = init_cash,
+                                            market_type = market_type,
+                                            *args,
+                                            **kwargs
+                                            )
         else:
             if self.cash_available >= init_cash:
                 if account_cookie not in self.account_list:
@@ -313,8 +317,8 @@ class SQ_Portfolio(SQ_Account):
             'portfolio_cookie': self.portfolio_cookie,
             'account_list': list(self.account_list),
             'init_cash': self.init_cash,
-            'cash': self.cash,
-            'history': self.history
+            'cash': self.cash
+            # 'history': self.history
         }
 
     def send_order(
@@ -362,7 +366,7 @@ class SQ_Portfolio(SQ_Account):
         )
 
     def receive_deal(self):
-        raise RuntimeError('PROTFOLIO shouldnot have this methods')
+        raise RuntimeError('PROTFOLIO should not have this methods')
 
     @property
     def table(self):
@@ -546,7 +550,7 @@ class SQ_PortfolioView():
         )
         self.portfolio_cookie = SQ_util_random_with_topic('Portfolio')
         self.user_cookie = None
-        self.market_type = account_list[0].market_type
+        # self.market_type = account_list[0].market_type
 
     def __repr__(self):
         return '< SQ_PortfolioVIEW {} with {} Accounts >'.format(

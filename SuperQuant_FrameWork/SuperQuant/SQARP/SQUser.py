@@ -324,10 +324,10 @@ class SQ_User():
     def new_portfolio(self,
                     portfolio_cookie = None,
                     strategy_name = None,
-                    init_cash = 100000000,
-                    sell_available = None,
-                    market_type = MARKET_TYPE.STOCK_CN,
-                    running_environment = RUNNING_ENVIRONMENT.BACKETEST
+                    init_cash = 100000000
+                    # sell_available = None,
+                    # market_type = MARKET_TYPE.STOCK_CN,
+                    # running_environment = RUNNING_ENVIRONMENT.BACKETEST
                       ):
 
         '''
@@ -341,8 +341,8 @@ class SQ_User():
             portfolio_cookie=portfolio_cookie,
             strategy_name=strategy_name,
             init_cash=init_cash,
-            sell_available=sell_available,
-            market_type=market_type
+            # sell_available=sell_available,
+            # market_type=market_type
         )
         if _portfolio.portfolio_cookie not in self.portfolio_list.keys():
             self.portfolio_list[_portfolio.portfolio_cookie] = _portfolio
@@ -570,7 +570,7 @@ if __name__ == '__main__':
     # 测试不对
     user = SQ_User(user_cookie='user_admin')
     folio = user.new_portfolio('folio_admin')
-    ac1 = user.get_portfolio(folio).new_account('account_admin')
+    ac1 = user.get_portfolio(folio.portfolio_cookie).new_account('account_admin')
 
     print(user)
     print(user.get_portfolio(folio))
