@@ -239,7 +239,7 @@ class SQ_Account(SQ_Worker):
         self.strategy_name = strategy_name
         self.portfolio_cookie = portfolio_cookie
         self.account_cookie = SQ_util_random_with_topic(
-            'Acc'
+            'Account'
         ) if account_cookie is None else account_cookie
         self.market_type = market_type
         self.broker = broker

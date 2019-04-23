@@ -176,6 +176,7 @@ class SQ_Portfolio(SQ_Account):
                 self.cash.append(self.cash_available - account.init_cash)
                 self.account_list.append(account.account_cookie)
                 account.save()
+                self.save()
                 return account
             else:
                 print('Portfolio:[{}]的现金少于Account:[{}]的初始现金要求'.format(self.portfolio_cookie,account.account_cookie))
@@ -193,10 +194,24 @@ class SQ_Portfolio(SQ_Account):
         """
 
         if account_cookie in self.account_list:
-            res = self.account_list.remove(account_cookie)
+            self.account_list.remove(account_cookie)
             self.cash.append(
-                self.cash[-1] + self.get_account_by_cookie(res).init_cash)
-            # if temp == False: self.save() # add
+                self.cash[-1] + self.get_account_by_cookie(account_cookie).cash_available)
+            if temp == False:
+                __client_account_temp = DATABASE.account
+                __client_account_temp.update_many({
+                                                    'user_cookie':self.user_cookie,
+                                                    'portfolio_cookie':self.portfolio_cookie,
+                                                    'account_cookie':account_cookie
+                                                    },
+                                                   {
+                                                       '$set':
+                                                           {
+                                                              'portfolio_cookie':'undifined'
+                                                           }
+                                                   }
+                                                   )
+                self.save()
             return True
         else:
             raise RuntimeError(
@@ -242,6 +257,7 @@ class SQ_Portfolio(SQ_Account):
                     self.account_list.append(temp.account_cookie)
                     temp.save()
                     self.cash.append(self.cash_available - init_cash)
+                    self.save()
                     return temp
 
                 else:
@@ -267,6 +283,7 @@ class SQ_Portfolio(SQ_Account):
                     acc.save()
                     self.account_list.append(acc.account_cookie)
                     self.cash.append(self.cash_available - init_cash)
+                    self.save()
                     return acc
                 else:
                     return self.get_account_by_cookie(account_cookie)
