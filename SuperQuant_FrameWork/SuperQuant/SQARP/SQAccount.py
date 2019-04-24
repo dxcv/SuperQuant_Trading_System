@@ -859,17 +859,17 @@ class SQ_Account(SQ_Worker):
         self.cash_available = self.cash[-1]  # 在途资金
 
     def receive_simpledeal(
-            self,
-            code,
-            trade_price,
-            trade_amount,
-            trade_towards,
-            trade_time,
-            message=None,
-            order_id=None,
-            trade_id=None,
-            realorder_id=None
-    ):
+                            self,
+                            code,
+                            trade_price,
+                            trade_amount,
+                            trade_towards,
+                            trade_time,
+                            message=None,
+                            order_id=None,
+                            trade_id=None,
+                            realorder_id=None
+                            ):
         """快速撮合成交接口
 
         此接口是一个直接可以成交的接口, 所以务必确保给出的信息是可以成交的
@@ -946,7 +946,7 @@ class SQ_Account(SQ_Worker):
                                  commission_fee_preset['commission_coeff_today_peramount'] * \
                                  abs(value)
 
-            tax_fee = 0  # 买入不收印花税
+            tax_fee = 0  # 期货不收税
         elif self.market_type == MARKET_TYPE.STOCK_CN:
 
             commission_fee = self.commission_coeff * \

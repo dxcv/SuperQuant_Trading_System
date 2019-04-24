@@ -26,14 +26,14 @@ def make_dir(path, exist_ok=True):
     os.makedirs(path, exist_ok=exist_ok)
 
 
-setting_path = generate_path('setting')
-cache_path = generate_path('cache')
-log_path = generate_path('log')
-download_path= generate_path('downloads')
-download_path_financial = os.path.join(download_path,'financial')
-strategy_path = generate_path('strategy')
+setting_path = generate_path('setting') #
+cache_path = generate_path('cache') #
+log_path = generate_path('log') #日志文件
+download_path= generate_path('downloads') #下载文件
+download_path_financial = os.path.join(download_path,'financial') #TDX财务数据专用，存储下载好的压缩财务数据包
+strategy_path = generate_path('strategy') #存储策略
 bin_path = generate_path('bin')  #给一些dll文件存储用
-
+factor_file_path = generate_path('factor_file') #存储因子函数 和 因子基本信息表
 
 make_dir(sq_path, exist_ok=True)
 make_dir(setting_path, exist_ok=True)
@@ -43,4 +43,5 @@ make_dir(download_path_financial, exist_ok=True)
 make_dir(log_path, exist_ok=True)
 make_dir(strategy_path, exist_ok=True)
 make_dir(bin_path, exist_ok=True)
+make_dir(factor_file_path, exist_ok=True)
 
