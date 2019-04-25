@@ -1236,7 +1236,7 @@ class SQ_Account(SQ_Worker):
         time = str(time) if len(str(time)) == 19 else '{} 09:31:00'.format(
             str(time)[0:10]
         )
-
+        limit_amount = 100 if self.market_type == MARKET_TYPE.STOCK_CN else 1
         # 🛠todo 移到Utils类中，  amount_to_money 成交量转金额
         # BY_MONEY :: amount --钱 如10000元  因此 by_money里面 需要指定价格,来计算实际的股票数
         # by_amount :: amount --股数 如10000股
@@ -1244,13 +1244,13 @@ class SQ_Account(SQ_Worker):
         if self.allow_margin:
             amount = amount if amount_model is AMOUNT_MODEL.BY_AMOUNT else int(
                 money / (self.market_preset.get_unit(code) *self.market_preset.get_frozen(code) * price *
-                        (1 + self.commission_coeff)) / 100
-            ) * 100
+                        (1 + self.commission_coeff)) / limit_amount
+            ) * limit_amount
         else:
 
             amount = amount if amount_model is AMOUNT_MODEL.BY_AMOUNT else int(
-                money / (price * (1 + self.commission_coeff)) / 100
-            ) * 100
+                money / (price * (1 + self.commission_coeff)) / limit_amount
+            ) * limit_amount
 
         # 🛠todo 移到Utils类中，  money_to_amount 金额转成交量
         if self.allow_margin:
@@ -1268,7 +1268,7 @@ class SQ_Account(SQ_Worker):
             # 是买入的情况(包括买入.买开.买平)
             if self.cash_available >= money:
                 if self.market_type == MARKET_TYPE.STOCK_CN:  # 如果是股票 买入的时候有100股的最小限制
-                    amount = int(amount / 100) * 100
+                    amount = int(amount / limit_amount) * limit_amount
                     self.cash_available -= money
                     flag = True
 
@@ -1290,10 +1290,10 @@ class SQ_Account(SQ_Worker):
                         # amount为下单数量 如  账户原先-3手 现在平1手
 
                         # left_amount = amount+_hold if _hold < 0 else amount
-                        _money = abs(
-                            float(amount * price * (1 + self.commission_coeff))
-                        )
-
+                        # _money = abs(                                                        # edit
+                        #     float(amount * price * (1 + self.commission_coeff))              # edit
+                        # )                                                                    # edit
+                        _money = abs(float(money))                                             # edit
                         print(_hold)
                         if self.cash_available >= _money:
                             if _hold < 0:
