@@ -1388,10 +1388,12 @@ class SQ_Account(SQ_Worker):
         if order.towards in [ORDER_DIRECTION.BUY,
                              ORDER_DIRECTION.BUY_OPEN,
                              ORDER_DIRECTION.BUY_CLOSE]:
-            if order.amount_model is AMOUNT_MODEL.BY_MONEY:
-                self.cash_available += order.money
-            elif order.amount_model is AMOUNT_MODEL.BY_AMOUNT:
-                self.cash_available += order.price * order.amount
+            # TODO 有问题，应该分需要保证金和不需要保证金的情况讨论，并考虑手续费入内，这时候只需要按order.money来恢复就可以了
+            self.cash_available += order.money
+            # if order.amount_model is AMOUNT_MODEL.BY_MONEY:
+            #     self.cash_available += order.money
+            # elif order.amount_model is AMOUNT_MODEL.BY_AMOUNT:
+            #     self.cash_available += order.price * order.amount
         elif order.towards in [ORDER_DIRECTION.SELL,
                                ORDER_DIRECTION.SELL_CLOSE,
                                ORDER_DIRECTION.SELL_OPEN]:
@@ -1464,12 +1466,9 @@ class SQ_Account(SQ_Worker):
 
         """
         # print('FROM SuperQuant SQ_ACCOUNT: account settle')
-        if self.running_environment == RUNNING_ENVIRONMENT.TZERO and self.hold_available.sum(
-        ) != 0:
+        if self.running_environment == RUNNING_ENVIRONMENT.TZERO and self.hold_available.sum() != 0:
             raise RuntimeError(
-                'SQACCOUNT: 该T0账户未当日仓位,请平仓 {}'.format(
-                    self.hold_available.to_dict()
-                )
+                'SQACCOUNT: 该T0账户未当日仓位,请平仓 {}'.format(self.hold_available.to_dict())
             )
         if self.market_type == MARKET_TYPE.FUTURE_CN:
             # 增加逐日盯市制度
@@ -1716,8 +1715,8 @@ class SQ_Account(SQ_Worker):
 
             self.on_bar(event)
 
-            if event.callback:
-                event.callback(event)
+            if event.callback:                # 不懂
+                event.callback(event)         # 不懂
 
     def save(self):
         """
