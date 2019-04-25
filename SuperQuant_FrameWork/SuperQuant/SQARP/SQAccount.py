@@ -968,7 +968,7 @@ class SQ_Account(SQ_Worker):
                     # 开仓单占用现金 计算avg
                     # 初始化
                     if code in self.frozen.keys():
-                        if trade_towards in self.frozen[code].keys():
+                        if str(trade_towards) in self.frozen[code].keys(): # edit
                             pass
                         else:
                             self.frozen[code][str(trade_towards)] = {
@@ -999,28 +999,19 @@ class SQ_Account(SQ_Worker):
 
                     self.frozen[code][str(trade_towards)]['money'] = (
                                                                              (
-                                                                                     self.frozen[code][
-                                                                                         str(trade_towards)]['money'] *
-                                                                                     self.frozen[code][
-                                                                                         str(trade_towards)]['amount']
+                                                                                     self.frozen[code][str(trade_towards)]['money'] *
+                                                                                     self.frozen[code][str(trade_towards)]['amount']
                                                                              ) + abs(trade_money)
                                                                      ) / (
-                                                                             self.frozen[code][str(trade_towards)][
-                                                                                 'amount'] +
+                                                                             self.frozen[code][str(trade_towards)]['amount'] +
                                                                              trade_amount
                                                                      )
                     self.frozen[code][str(trade_towards)]['avg_price'] = (
-                                                                                 (
-                                                                                         self.frozen[code][
-                                                                                             str(trade_towards)][
-                                                                                             'avg_price'] *
-                                                                                         self.frozen[code][
-                                                                                             str(trade_towards)][
-                                                                                             'amount']
+                                                                                 (self.frozen[code][str(trade_towards)]['avg_price'] *
+                                                                                         self.frozen[code][str(trade_towards)]['amount']
                                                                                  ) + abs(raw_trade_money)
                                                                          ) / (
-                                                                                 self.frozen[code][str(trade_towards)][
-                                                                                     'amount'] +
+                                                                                 self.frozen[code][str(trade_towards)]['amount'] +
                                                                                  trade_amount
                                                                          )
                     self.frozen[code][str(trade_towards)]['amount'] += trade_amount
@@ -1037,52 +1028,38 @@ class SQ_Account(SQ_Worker):
                     # self.cash
                     if trade_towards in [ORDER_DIRECTION.BUY_CLOSE, ORDER_DIRECTION.BUY_CLOSETODAY]:  # 买入平仓  之前是空开
                         # self.frozen[code][ORDER_DIRECTION.SELL_OPEN]['money'] -= trade_money
-                        self.frozen[code][str(ORDER_DIRECTION.SELL_OPEN)
-                        ]['amount'] -= trade_amount
+                        self.frozen[code][str(ORDER_DIRECTION.SELL_OPEN)]['amount'] -= trade_amount
 
-                        frozen_part = self.frozen[code][
-                                          str(ORDER_DIRECTION.SELL_OPEN)]['money'] * trade_amount
+                        frozen_part = self.frozen[code][str(ORDER_DIRECTION.SELL_OPEN)]['money'] * trade_amount
                         # 账户的现金+ 冻结的的释放 + 买卖价差* 杠杆
                         self.cash.append(
                             self.cash[-1] + frozen_part +
                             (frozen_part - trade_money) / frozen -
                             commission_fee - tax_fee
                         )
-                        if self.frozen[code][str(ORDER_DIRECTION.SELL_OPEN)
-                        ]['amount'] == 0:
-                            self.frozen[code][str(ORDER_DIRECTION.SELL_OPEN)
-                            ]['money'] = 0
-                            self.frozen[code][str(ORDER_DIRECTION.SELL_OPEN)
-                            ]['avg_price'] = 0
+                        if self.frozen[code][str(ORDER_DIRECTION.SELL_OPEN)]['amount'] == 0:
+                            self.frozen[code][str(ORDER_DIRECTION.SELL_OPEN)]['money'] = 0
+                            self.frozen[code][str(ORDER_DIRECTION.SELL_OPEN)]['avg_price'] = 0
 
                     elif trade_towards in [ORDER_DIRECTION.SELL_CLOSE, ORDER_DIRECTION.SELL_CLOSETODAY]:  # 卖出平仓  之前是多开
                         # self.frozen[code][ORDER_DIRECTION.BUY_OPEN]['money'] -= trade_money
-                        self.frozen[code][str(ORDER_DIRECTION.BUY_OPEN)
-                        ]['amount'] -= trade_amount
+                        self.frozen[code][str(ORDER_DIRECTION.BUY_OPEN)]['amount'] -= trade_amount
 
-                        frozen_part = self.frozen[code][str(ORDER_DIRECTION.BUY_OPEN)
-                                      ]['money'] * trade_amount
+                        frozen_part = self.frozen[code][str(ORDER_DIRECTION.BUY_OPEN)]['money'] * trade_amount
                         self.cash.append(
                             self.cash[-1] + frozen_part +
                             (abs(trade_money) - frozen_part) / frozen -
                             commission_fee - tax_fee
                         )
-                        if self.frozen[code][str(ORDER_DIRECTION.BUY_OPEN)
-                        ]['amount'] == 0:
-                            self.frozen[code][str(ORDER_DIRECTION.BUY_OPEN)
-                            ]['money'] = 0
-                            self.frozen[code][str(ORDER_DIRECTION.BUY_OPEN)
-                            ]['avg_price'] = 0
+                        if self.frozen[code][str(ORDER_DIRECTION.BUY_OPEN)]['amount'] == 0:
+                            self.frozen[code][str(ORDER_DIRECTION.BUY_OPEN)]['money'] = 0
+                            self.frozen[code][str(ORDER_DIRECTION.BUY_OPEN)]['avg_price'] = 0
             else:  # 不允许卖空开仓的==> 股票
 
-                self.cash.append(
-                    self.cash[-1] - trade_money - tax_fee - commission_fee
-                )
+                self.cash.append(self.cash[-1] - trade_money - tax_fee - commission_fee)
+
             if self.allow_t0 or trade_towards == ORDER_DIRECTION.SELL:
-                self.sell_available[code] = self.sell_available.get(
-                    code,
-                    0
-                ) + trade_amount * market_towards
+                self.sell_available[code] = self.sell_available.get(code,0) + trade_amount * market_towards
                 self.buy_available = self.sell_available
 
             self.cash_available = self.cash[-1]
@@ -1090,6 +1067,7 @@ class SQ_Account(SQ_Worker):
                 ORDER_DIRECTION.BUY_OPEN,
                 ORDER_DIRECTION.SELL_OPEN
             ] else 0
+
             self.history.append(
                 [
                     str(trade_time),
@@ -1265,11 +1243,8 @@ class SQ_Account(SQ_Worker):
 
         if self.allow_margin:
             amount = amount if amount_model is AMOUNT_MODEL.BY_AMOUNT else int(
-                money / (
-                        self.market_preset.get_unit(code) *
-                        self.market_preset.get_frozen(code) * price *
-                        (1 + self.commission_coeff)
-                ) / 100
+                money / (self.market_preset.get_unit(code) *self.market_preset.get_frozen(code) * price *
+                        (1 + self.commission_coeff)) / 100
             ) * 100
         else:
 
@@ -1280,10 +1255,10 @@ class SQ_Account(SQ_Worker):
         # 🛠todo 移到Utils类中，  money_to_amount 金额转成交量
         if self.allow_margin:
             money = amount * price * self.market_preset.get_unit(code) * self.market_preset.get_frozen(code) * \
-                    (1 + self.commission_coeff) if amount_model is AMOUNT_MODEL.BY_AMOUNT else money
+                    (1 + self.commission_coeff)# if amount_model is AMOUNT_MODEL.BY_AMOUNT else money # edit
         else:
             money = amount * price * \
-                    (1 + self.commission_coeff) if amount_model is AMOUNT_MODEL.BY_AMOUNT else money
+                    (1 + self.commission_coeff)# if amount_model is AMOUNT_MODEL.BY_AMOUNT else money # edit
 
         # flag 判断买卖 数量和价格以及买卖方向是否正确
         flag = False
