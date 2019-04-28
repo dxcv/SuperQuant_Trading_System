@@ -1,0 +1,2 @@
+SQSU.SQUpdate
+	SQ_Update: TODO: 对不同的financial包增加裁定，当前只使用通达信financial包

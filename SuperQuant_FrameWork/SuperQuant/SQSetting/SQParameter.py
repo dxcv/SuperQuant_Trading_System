@@ -408,3 +408,28 @@ DATABASE_TABLE = {
     (MARKET_TYPE.FUTURE_CN, FREQUENCE.TICK): 'future_transaction'
 }
 
+class DATABASE_NAME():
+    '''
+    数据库名
+    '''
+    STOCK_LIST = 'stock_list'
+    STOCK_DAY = 'stock_day'
+    STOCK_MIN = 'stock_min'
+    STOCK_TRANSACTION = 'stock_transaction'
+    STOCK_XDXR = 'stock_xdxr'
+
+    INDEX_LIST = 'index_list'
+    INDEX_DAY = 'index_day'
+    INDEX_MIN = 'index_min'
+
+    # FUND_LIST = 'fund_list'
+    # FUND_DAY = 'fund_day'
+    # FUND_MIN = 'fund_min'
+    # FUND_TRANSACTION = 'fund_transaction'
+
+    FUTURE_LIST = 'future_list'
+    FUTURE_DAY = 'future_day'
+    FUTURE_MIN = 'future_min'
+    FUTURE_TRANSACTION = 'future_transaction'
+
+    FINANCIAL = 'financial'
