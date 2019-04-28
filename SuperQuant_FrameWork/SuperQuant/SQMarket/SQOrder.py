@@ -377,7 +377,7 @@ class SQ_Order():
             "time_condition": "GFD",
         }
 
-    def to_qatradegatway(self):
+    def to_sqtradegatway(self):
 
         direction = 'BUY' if self.direction > 0 else 'SELL'
         return {
@@ -633,7 +633,7 @@ class SQ_OrderQueue():  # also the order tree ？？ what's the tree means?
         try:
             if order_id in self.order_ids:
 
-                self.order_list[order_id].status = new_status
+                self.order_list[order_id]._status = new_status  # edit，status不能直接被修改，只能通过修改_status来做到
             else:
                 pass
         except:

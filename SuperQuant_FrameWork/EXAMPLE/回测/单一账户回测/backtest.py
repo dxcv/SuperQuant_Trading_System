@@ -25,18 +25,27 @@ class Backtest(SQ_Backtest):
                  start, 
                  end, 
                  code_list, 
-                 commission_fee):
+                 commission_fee,
+                 username,
+                 password,
+                 portfolio_cookie
+                 ):
         super().__init__(market_type,  
                          frequence, 
                          start, 
                          end, 
                          code_list, 
-                         commission_fee)
-        mastrategy = MAStrategy(user_cookie=self.user.user_cookie, 
+                         commission_fee,
+                         username,
+                         password,
+                         portfolio_cookie
+                         )
+        
+    def add_strategy(self,strategy,account_cookie):
+        strategy_main = strategy(user_cookie=self.user.user_cookie, 
                                 portfolio_cookie= self.portfolio.portfolio_cookie, 
-                                account_cookie= 'mastrategy')
-        #maminstrategy = MAMINStrategy()
-        self.account = self.portfolio.add_account(mastrategy)
+                                account_cookie= account_cookie)
+        self.account = self.portfolio.add_account(strategy_main)
 
     def after_success(self):
         SQ_util_log_info(self.account.history_table)
@@ -54,14 +63,19 @@ class Backtest(SQ_Backtest):
         risk.save()
 
 
-def run_daybacktest():
+def run_daybacktest(username,password,portfolio_cookie,account_cookie,strategy):
     import SuperQuant as SQ
     backtest = Backtest(market_type=MARKET_TYPE.STOCK_CN,
                         frequence=FREQUENCE.DAY,
                         start='2017-01-01',
                         end='2017-02-10',
                         code_list=['000001'],#SQ.SQ_fetch_stock_block_adv().code[0:5]
-                        commission_fee=0.00015)
+                        commission_fee=0.00015,
+                        username = username,
+                        password = password,
+                        portfolio_cookie = portfolio_cookie
+                        )
+    backtest.add_strategy(strategy,account_cookie)
     print(backtest.account)
     backtest.start_market()
 
@@ -84,29 +98,30 @@ def run_daybacktest():
 
 
 if __name__ == '__main__':
-    run_daybacktest()
+    
+    run_daybacktest('superquant','superquant','sqtestportfolio','mastrategy',MAStrategy)
     #run_minbacktest()
 
-BT = SQ_Backtest(market_type=MARKET_TYPE.STOCK_CN,
-                    frequence=FREQUENCE.DAY,
-                    start='2017-01-01',
-                    end='2017-02-10',
-                    code_list=['000001'],#SQ.SQ_fetch_stock_block_adv().code[0:5]
-                    commission_fee=0.00015)
-
-mastrategy = MAStrategy(user_cookie=BT.user.user_cookie, 
-                        portfolio_cookie= BT.portfolio.portfolio_cookie, 
-                        account_cookie= 'mastrategy')
-mastrategy.account_cookie
-account = BT.portfolio.add_account(mastrategy)
-
-BT.portfolio.account_list
-BT.accounts
-
-
-
-.account_cookie
-BT.portfolio.user_cookie
+#BT = SQ_Backtest(market_type=MARKET_TYPE.STOCK_CN,
+#                    frequence=FREQUENCE.DAY,
+#                    start='2017-01-01',
+#                    end='2017-02-10',
+#                    code_list=['000001'],#SQ.SQ_fetch_stock_block_adv().code[0:5]
+#                    commission_fee=0.00015)
+#
+#mastrategy = MAStrategy(user_cookie=BT.user.user_cookie, 
+#                        portfolio_cookie= BT.portfolio.portfolio_cookie, 
+#                        account_cookie= 'mastrategy')
+#mastrategy.account_cookie
+#account = BT.portfolio.add_account(mastrategy)
+#
+#BT.portfolio.account_list
+#BT.accounts
+#
+#
+#
+#.account_cookie
+#BT.portfolio.user_cookie
 #
 #user = SQ.SQ_User(user_cookie='user_admin')
 #folio = user.new_portfolio('folio_admin')
@@ -114,16 +129,19 @@ BT.portfolio.user_cookie
 #
 #folio.account_list
 #folio['account_admin']
-dict(
-zip(
-    folio.account_list,
-    [
-    SQ_Account(
-            account_cookie='mastrategy',
-            user_cookie=BT.portfolio.user_cookie,
-            portfolio_cookie=BT.portfolio.portfolio_cookie,
-            auto_reload=True
-        )for item in folio.account_list
-                ]
-            )
-        )
+#dict(
+#zip(
+#    folio.account_list,
+#    [
+#    SQ_Account(
+#            account_cookie='mastrategy',
+#            user_cookie=BT.portfolio.user_cookie,
+#            portfolio_cookie=BT.portfolio.portfolio_cookie,
+#            auto_reload=True
+#        )for item in folio.account_list
+#                ]
+#            )
+#        )
+    
+from SuperQuant.SQSU.save_tdx import SQ_SU_save_index_day
+
