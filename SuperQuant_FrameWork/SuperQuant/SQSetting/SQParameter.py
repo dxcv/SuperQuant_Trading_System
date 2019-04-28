@@ -421,6 +421,7 @@ class DATABASE_NAME():
     INDEX_LIST = 'index_list'
     INDEX_DAY = 'index_day'
     INDEX_MIN = 'index_min'
+    # INDEX_TRANSACTION = 'index_transaction'
 
     # FUND_LIST = 'fund_list'
     # FUND_DAY = 'fund_day'
@@ -430,6 +431,6 @@ class DATABASE_NAME():
     FUTURE_LIST = 'future_list'
     FUTURE_DAY = 'future_day'
     FUTURE_MIN = 'future_min'
-    FUTURE_TRANSACTION = 'future_transaction'
+    # FUTURE_TRANSACTION = 'future_transaction'
 
     FINANCIAL = 'financial'

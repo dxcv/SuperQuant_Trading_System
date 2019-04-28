@@ -168,6 +168,7 @@ class SQ_Broker(SQ_Worker):
         raise NotImplementedError
 
     def warp(self, order):
+
         """对order/market的封装
 
         [description]
@@ -180,6 +181,7 @@ class SQ_Broker(SQ_Worker):
         """
 
         # 因为成交模式对时间的封装
+        # 这里的warp暂时废弃，在SQBacktestBroker和realtimeBroker里面分别定义
 
         if order.order_model == ORDER_MODEL.MARKET:
 
@@ -224,10 +226,11 @@ class SQ_Broker(SQ_Worker):
             if self.market_data is None:
                 return order
             order.price = float(self.market_data["close"])
+            # neededit 有歧义,应该改成open
         elif order.order_model == ORDER_MODEL.CLOSE:
-
+            # neededit 有歧义
             try:
-                order.datetime = self.market_data.datetime
+                order.datetime = self.market_data.datetime # neededit 有歧义，market_data提前被赋值了
             except:
                 if len(str(order.datetime)) == 19:
                     pass

@@ -1236,6 +1236,7 @@ class SQ_Account(SQ_Worker):
         time = str(time) if len(str(time)) == 19 else '{} 09:31:00'.format(
             str(time)[0:10]
         )
+        # neededit 有歧义 应该改成 09：30：00
         limit_amount = 100 if self.market_type == MARKET_TYPE.STOCK_CN else 1
         # 🛠todo 移到Utils类中，  amount_to_money 成交量转金额
         # BY_MONEY :: amount --钱 如10000元  因此 by_money里面 需要指定价格,来计算实际的股票数
@@ -1513,7 +1514,7 @@ class SQ_Account(SQ_Worker):
         :return:
         '''
         'while updating the market data'
-
+        print('on bar test ############################### SuperQuant account on bar')
         print(
             "on_bar account {} ".format(self.account_cookie),
             event.market_data.data

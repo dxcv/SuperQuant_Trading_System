@@ -143,5 +143,15 @@ if __name__ == '__main__':
 #            )
 #        )
     
-from SuperQuant.SQSU.save_tdx import SQ_SU_save_index_day
 
+# =============================================================================
+# 测试
+import SuperQuant as SQ
+
+data = SQ.SQ_fetch_stock_day_adv(['000001'],'2010-01-01','2019-01-01').to_qfq().panel_gen
+
+    
+data.send()
+
+
+# =============================================================================

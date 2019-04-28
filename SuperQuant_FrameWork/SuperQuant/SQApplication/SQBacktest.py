@@ -80,7 +80,7 @@ class SQ_Backtest():
         self.market_type = market_type
 
         self.frequence = frequence
-        self.broker = SQ_BacktestBroker(commission_fee)
+        self.broker = SQ_BacktestBroker(commission_fee)   # neededit, 存在歧义， commission_fee显然不是SQ_BacktestBroker的初始化条件
         self.broker_name = 'backtest_broker'
 
         self.start = start
@@ -98,8 +98,7 @@ class SQ_Backtest():
                 self.start,
                 self.end
             ).to_qfq().panel_gen
-        elif self.market_type is MARKET_TYPE.STOCK_CN and self.frequence[
-                                                          -3:] == 'min':
+        elif self.market_type is MARKET_TYPE.STOCK_CN and self.frequence[-3:] == 'min':
             # 获取分钟级别的回测数据
             self.ingest_data = SQ_fetch_stock_min_adv(
                 self.code_list,

@@ -265,7 +265,7 @@ class SQ_BacktestBroker(SQ_Broker):
             """
             try:
                 order.date = order.datetime[0:10]
-                order.datetime = '{} 15:00:00'.format(order.date)
+                order.datetime = '{} 15:00:00'.format(order.date)  # neededit 有歧义,当日线时OK,但是当分钟级别回测的时候，这里会存在问题
             except:
                 if len(str(order.datetime)) == 19:
                     pass

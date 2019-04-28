@@ -1,2 +1,27 @@
+TODO优先级：
+A:
+B:
+C:
+D:
+
 SQSU.SQUpdate
 	SQ_Update: TODO: 对不同的financial包增加裁定，当前只使用通达信financial包
+
+SQMarket.SQBroker
+	SQ_Broker: neededit: 有歧义, warp有大量内容需要完善, 优先级：D，因为该方法已经废弃，在子类实现
+
+SQARP.SQAccount
+	SQ_Account: neededit: 有歧义
+
+SQMarket.SQBacktestBroker
+	SQ_BacktestBroker: 
+		1，def warp
+			状态：neededit: 有歧义, warp有大量内容需要完善
+			优先级：B
+
+
+SQApplication.SQBacktest
+	SQ_Backtest:
+		1，self.broker =  SQ_BacktestBroker(commission_fee)
+			状态: neededit: 有歧义, commission_fee显然不是SQ_BacktestBroker的初始化条件
+			优先级：B
