@@ -11,15 +11,15 @@ def select_update_engine(package = 'tdx'):
 def SQ_Update(update_dict = {
                             DATABASE_NAME.STOCK_LIST:'tdx',
                             DATABASE_NAME.STOCK_DAY:'tdx',
-                            # DATABASE_NAME.STOCK_MIN:'tdx',
-                            # DATABASE_NAME.STOCK_TRANSACTION:'tdx',
+                            DATABASE_NAME.STOCK_MIN:'tdx',
+                            DATABASE_NAME.STOCK_TRANSACTION:'tdx',
                             DATABASE_NAME.STOCK_XDXR:'tdx',
                             DATABASE_NAME.INDEX_LIST:'tdx',
                             DATABASE_NAME.INDEX_DAY:'tdx',
-                            # DATABASE_NAME.INDEX_MIN:'tdx',
+                            DATABASE_NAME.INDEX_MIN:'tdx',
                             DATABASE_NAME.FUTURE_LIST:'tdx',
                             DATABASE_NAME.FUTURE_DAY:'tdx',
-                            # DATABASE_NAME.FUTURE_MIN:'tdx',
+                            DATABASE_NAME.FUTURE_MIN:'tdx',
                             DATABASE_NAME.FINANCIAL:None
                             }):
 

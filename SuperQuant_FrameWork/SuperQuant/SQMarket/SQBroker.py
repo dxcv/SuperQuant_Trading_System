@@ -33,7 +33,6 @@ class SQ_Broker(SQ_Worker):
     query_deals
 
     query_positions [实盘需要]
-
     """
 
     def __init__(self, *args, **kwargs):

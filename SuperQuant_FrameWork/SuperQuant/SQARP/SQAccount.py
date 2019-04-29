@@ -39,6 +39,7 @@ from SuperQuant.SQUtil.SQRandom import SQ_util_random_with_topic
 # pylint: disable=old-style-class, too-few-public-methods
 class SQ_Account(SQ_Worker):
     """SQ_Account
+    策略类实际上就是一个Account
     User-->Portfolio-->Account/Strategy
 
     :::::::::::::::::::::::::::::::::::::::::::::::::
@@ -1509,7 +1510,7 @@ class SQ_Account(SQ_Worker):
 
     def on_bar(self, event):
         '''
-        策略事件
+        策略事件, 策略需要实现on_bar或者on_tick方法
         :param event:
         :return:
         '''

@@ -6,7 +6,7 @@ from functools import lru_cache
 from SuperQuant.SQARP.SQPortfolio import SQ_Portfolio
 from SuperQuant.SQARP.SQUser import SQ_User
 from SuperQuant.SQEngine.SQEvent import SQ_Event
-from SuperQuant.SQFetch.SQQuery_Advance import SQ_fetch_stock_day_adv, SQ_fetch_stock_min_adv
+from SuperQuant.SQFetch.SQQuery_Advance import *
 from SuperQuant.SQMarket.SQBacktestBroker import SQ_BacktestBroker
 from SuperQuant.SQMarket.SQMarket import SQ_Market
 from SuperQuant.SQSetting.SQParameter import (
@@ -27,7 +27,7 @@ from SuperQuant.SQDatabase.SQMongo import SQ_util_mongo_initial
 
 class SQ_Backtest():
     """BACKTEST
-
+    BACKTEST应该作为一个总控台，不应该有过多的参数，参数部分应该在strategy中完成
     BACKTEST的主要目的:
 
         - 引入时间轴环境,获取全部的数据,然后按生成器将数据迭代插入回测的BROKER
@@ -61,7 +61,9 @@ class SQ_Backtest():
             commission_fee,
             username='superquant',
             password='superquant',
-            portfolio_cookie='sqtestportfolio'
+            portfolio_cookie='sqtestportfolio',
+            account_cookie = None,
+            strategy
     ):
         """
         :param market_type: 回测的市场 MARKET_TYPE.STOCK_CN ，
@@ -107,6 +109,37 @@ class SQ_Backtest():
                 self.frequence
             ).to_qfq().panel_gen
 
+        elif self.market_type is MARKET_TYPE.INDEX_CN and self.frequence is FREQUENCE.DAY:
+            # 获取日线级别的回测数据
+            self.ingest_data = SQ_fetch_index_day_adv(
+                self.code_list,
+                self.start,
+                self.end
+            ).panel_gen
+        elif self.market_type is MARKET_TYPE.INDEX_CN and self.frequence[-3:] == 'min':
+            # 获取日线级别的回测数据
+            self.ingest_data = SQ_fetch_index_min_adv(
+                self.code_list,
+                self.start,
+                self.end,
+                self.frequence
+            ).panel_gen
+
+        elif self.market_type is MARKET_TYPE.FUTURE_CN and self.frequence is FREQUENCE.DAY:
+            # 获取日线级别的回测数据
+            self.ingest_data = SQ_fetch_future_day_adv(
+                self.code_list,
+                self.start,
+                self.end
+            ).panel_gen
+        elif self.market_type is MARKET_TYPE.FUTURE_CN and self.frequence[-3:] == 'min':
+            # 获取日线级别的回测数据
+            self.ingest_data = SQ_fetch_future_min_adv(
+                self.code_list,
+                self.start,
+                self.end,
+                self.frequence
+            ).panel_gen
         else:
             SQ_util_log_info("{} 的市场类型没有实现！".format(market_type))
 
