@@ -59,11 +59,7 @@ class SQ_Backtest():
             end,
             code_list,
             commission_fee,
-            username='superquant',
-            password='superquant',
-            portfolio_cookie='sqtestportfolio',
-            account_cookie = None,
-            strategy
+            if_nondatabase = False
     ):
         """
         :param market_type: 回测的市场 MARKET_TYPE.STOCK_CN ，
@@ -73,16 +69,14 @@ class SQ_Backtest():
         :param code_list: 股票代码池
         :param commission_fee: 交易佣金
         """
-        self.user = SQ_User(username=username, password=password)
         self.if_settled = False
         self.account = None
-        self.portfolio = self.user.new_portfolio(portfolio_cookie)
         # 🛠todo market_type 应该放在 SQ_Market对象里的一个属性
         self.market = SQ_Market(if_start_orderthreading=True)
         self.market_type = market_type
 
         self.frequence = frequence
-        self.broker = SQ_BacktestBroker(commission_fee)   # neededit, 存在歧义， commission_fee显然不是SQ_BacktestBroker的初始化条件
+        self.broker = SQ_BacktestBroker(if_nondatabase)   # neededit, 存在歧义， commission_fee显然不是SQ_BacktestBroker的初始化条件
         self.broker_name = 'backtest_broker'
 
         self.start = start
@@ -148,7 +142,20 @@ class SQ_Backtest():
         generate a simple account
         """
         self.account = self.portfolio.new_account()
+        self.market.login(
+            self.broker_name,
+            self.account.account_cookie,
+            self.account
+        )
 
+    def load_account(self, account):
+        # 通过 broke名字 新建立一个 SQAccount 放在的中 session字典中 session 是 { 'cookie' , SQAccount }
+        self.market.login(
+            self.broker_name,
+            account.account_cookie,
+            account
+        )
+        self.account = account
     def start_market(self):
         """
         start the market thread and register backtest broker thread
@@ -160,14 +167,6 @@ class SQ_Backtest():
 
         # 注册 backtest_broker ，并且启动和它关联线程SQThread 存放在 kernels 词典中， { 'broker_name': SQThread }
         self.market.register(self.broker_name, self.broker)
-
-        # 通过 broke名字 新建立一个 SQAccount 放在的中 session字典中 session 是 { 'cookie' , SQAccount }
-        self.market.login(
-            self.broker_name,
-            self.account.account_cookie,
-            self.account
-        )
-
         self.market._sync_orders()
 
     def run(self):

@@ -34,7 +34,7 @@ def SQ_Update(update_dict = {
 
     if DATABASE_NAME.STOCK_LIST in update_dict.keys():
         engine = select_update_engine(package = update_dict[DATABASE_NAME.STOCK_LIST])
-        engine.SQ_SU_save_stock_day()
+        engine.SQ_SU_save_stock_list()
 
     if DATABASE_NAME.STOCK_DAY in update_dict.keys():
         engine = select_update_engine(package = update_dict[DATABASE_NAME.STOCK_DAY])

@@ -15,3 +15,5 @@ DATA = SQ.SQ_fetch_future_day_adv(
 DATA = DATA.security_gen
 for i in DATA: print(i.data)
 DATA.data
+
+SQ.SQ_fetch_stock_list_adv()

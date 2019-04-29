@@ -24,7 +24,7 @@ from SuperQuant.SQUtil.SQDate_trade import SQ_util_if_tradetime
 
 
 class SQ_RealTrade():
-    def __init__(self, code, market_type, frequence, broker_name=BROKER_TYPE.SHIPANE, broker=None,):
+    def __init__(self, code_list, market_type, frequence, broker_name=BROKER_TYPE.SHIPANE, broker=None,):
         self.user = SQ_User()
         self.if_settled = False
         self.account = None
@@ -47,6 +47,7 @@ class SQ_RealTrade():
     def load_account(self, account):
         # 通过 broke名字 新建立一个 SQAccount 放在的中 session字典中 session 是 { 'cookie' , SQAccount }
         self.market.login(self.broker_name, account.account_cookie, account)
+        self.account = account
 
     def start_market(self):
         """

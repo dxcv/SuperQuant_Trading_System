@@ -10,9 +10,30 @@ from SuperQuant.SQARP.SQAccount import SQ_Account
 from SuperQuant.SQApplication.SQBacktest import SQ_Backtest
 from SuperQuant.SQUtil.SQLogs import SQ_util_log_info
 from SuperQuant.SQSetting.SQParameter import FREQUENCE, MARKET_TYPE
-from minstrategy import MAMINStrategy
+#from minstrategy import MAMINStrategy
 from strategy import MAStrategy
 
+
+#%%
+BK = SQ_Backtest(market_type=MARKET_TYPE.STOCK_CN,
+                frequence=FREQUENCE.DAY,
+                start='2017-01-01',
+                end='2017-02-10',
+                code_list=['000001'],
+                commission_fee=0.00015)
+ma = MAStrategy('superquant', 
+                 'superquant', 
+                 'mastrategy',  
+                 init_cash=100000, 
+                 init_hold={})
+BK.load_account(ma)
+BK.start_market()
+
+BK.run()
+BK.stop()
+
+
+#%%
 
 class Backtest(SQ_Backtest):
     '''
@@ -25,27 +46,21 @@ class Backtest(SQ_Backtest):
                  start, 
                  end, 
                  code_list, 
-                 commission_fee,
-                 username,
-                 password,
-                 portfolio_cookie
+                 commission_fee
                  ):
         super().__init__(market_type,  
                          frequence, 
                          start, 
                          end, 
                          code_list, 
-                         commission_fee,
-                         username,
-                         password,
-                         portfolio_cookie
+                         commission_fee
                          )
         
-    def add_strategy(self,strategy,account_cookie):
-        strategy_main = strategy(user_cookie=self.user.user_cookie, 
-                                portfolio_cookie= self.portfolio.portfolio_cookie, 
+    def add_strategy(self,strategy,user_cookie,portfolio_cookie,account_cookie):
+        strategy_main = strategy(user_cookie=user_cookie, 
+                                portfolio_cookie= portfolio_cookie, 
                                 account_cookie= account_cookie)
-        self.account = self.portfolio.add_account(strategy_main)
+        self.account = strategy_main
 
     def after_success(self):
         SQ_util_log_info(self.account.history_table)
@@ -81,7 +96,19 @@ def run_daybacktest(username,password,portfolio_cookie,account_cookie,strategy):
 
     backtest.run()
     backtest.stop()
-#
+#%% DEBUG
+backtest = Backtest(market_type=MARKET_TYPE.STOCK_CN,
+                    frequence=FREQUENCE.DAY,
+                    start='2017-01-01',
+                    end='2017-02-10',
+                    code_list=['000001'],#SQ.SQ_fetch_stock_block_adv().code[0:5]
+                    commission_fee=0.00015
+#                    username = 'superquant',
+#                    password = 'superquant',
+#                    portfolio_cookie = 'sqtestportfolio'
+                    )
+backtest.add_strategy(MAStrategy,'superquant','sqtestportfolio','mastrategy')  
+#backtest.account
 #
 #def run_minbacktest():
 #    import SuperQuant as SQ
@@ -95,12 +122,12 @@ def run_daybacktest(username,password,portfolio_cookie,account_cookie,strategy):
 #
 #    backtest.run()
 #    backtest.stop()
+#%%
 
-
-if __name__ == '__main__':
-    
-    run_daybacktest('superquant','superquant','sqtestportfolio','mastrategy',MAStrategy)
-    #run_minbacktest()
+#if __name__ == '__main__':
+#    
+#    run_daybacktest('superquant','superquant','sqtestportfolio','mastrategy',MAStrategy)
+#    run_minbacktest()
 
 #BT = SQ_Backtest(market_type=MARKET_TYPE.STOCK_CN,
 #                    frequence=FREQUENCE.DAY,
@@ -146,12 +173,12 @@ if __name__ == '__main__':
 
 # =============================================================================
 # 测试
-import SuperQuant as SQ
-
-data = SQ.SQ_fetch_stock_day_adv(['000001'],'2010-01-01','2019-01-01').to_qfq().panel_gen
-
-    
-data.send()
+#import SuperQuant as SQ
+#
+#data = SQ.SQ_fetch_stock_day_adv(['000001'],'2010-01-01','2019-01-01').to_qfq().panel_gen
+#
+#    
+#data.send()
 
 
 # =============================================================================
