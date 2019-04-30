@@ -26,15 +26,27 @@ ma = MAStrategy('superquant',
                  'mastrategy',  
                  init_cash=100000, 
                  init_hold={})
-BK.load_account(ma)
 BK.start_market()
+BK.load_account(ma)
 
 BK.run()
 BK.stop()
 
 
-#%%
+risk = SQ_Risk(BK.account, benchmark_code='000001',
+               benchmark_type=MARKET_TYPE.INDEX_CN)
 
+print(risk().T)
+fig=risk.plot_assets_curve()
+fig.show()
+fig=risk.plot_dailyhold()
+fig.show()
+fig=risk.plot_signal()
+fig.show()
+#self.account.save()
+#risk.save()
+#%%
+#
 class Backtest(SQ_Backtest):
     '''
     多线程模式回测示例
@@ -56,11 +68,8 @@ class Backtest(SQ_Backtest):
                          commission_fee
                          )
         
-    def add_strategy(self,strategy,user_cookie,portfolio_cookie,account_cookie):
-        strategy_main = strategy(user_cookie=user_cookie, 
-                                portfolio_cookie= portfolio_cookie, 
-                                account_cookie= account_cookie)
-        self.account = strategy_main
+    def add_strategy(self,strategy):
+        self.load_account = (strategy)
 
     def after_success(self):
         SQ_util_log_info(self.account.history_table)
@@ -76,38 +85,45 @@ class Backtest(SQ_Backtest):
         fig.show()
         self.account.save()
         risk.save()
-
-
-def run_daybacktest(username,password,portfolio_cookie,account_cookie,strategy):
-    import SuperQuant as SQ
-    backtest = Backtest(market_type=MARKET_TYPE.STOCK_CN,
-                        frequence=FREQUENCE.DAY,
-                        start='2017-01-01',
-                        end='2017-02-10',
-                        code_list=['000001'],#SQ.SQ_fetch_stock_block_adv().code[0:5]
-                        commission_fee=0.00015,
-                        username = username,
-                        password = password,
-                        portfolio_cookie = portfolio_cookie
-                        )
-    backtest.add_strategy(strategy,account_cookie)
-    print(backtest.account)
-    backtest.start_market()
-
-    backtest.run()
-    backtest.stop()
+#
+#
+#def run_daybacktest(username,password,portfolio_cookie,account_cookie,strategy):
+#    import SuperQuant as SQ
+#    backtest = Backtest(market_type=MARKET_TYPE.STOCK_CN,
+#                        frequence=FREQUENCE.DAY,
+#                        start='2017-01-01',
+#                        end='2017-02-10',
+#                        code_list=['000001'],#SQ.SQ_fetch_stock_block_adv().code[0:5]
+#                        commission_fee=0.00015,
+#                        username = username,
+#                        password = password,
+#                        portfolio_cookie = portfolio_cookie
+#                        )
+#    backtest.add_strategy(strategy,account_cookie)
+#    print(backtest.account)
+#    backtest.start_market()
+#
+#    backtest.run()
+#    backtest.stop()
 #%% DEBUG
 backtest = Backtest(market_type=MARKET_TYPE.STOCK_CN,
                     frequence=FREQUENCE.DAY,
                     start='2017-01-01',
                     end='2017-02-10',
                     code_list=['000001'],#SQ.SQ_fetch_stock_block_adv().code[0:5]
-                    commission_fee=0.00015
-#                    username = 'superquant',
-#                    password = 'superquant',
-#                    portfolio_cookie = 'sqtestportfolio'
-                    )
-backtest.add_strategy(MAStrategy,'superquant','sqtestportfolio','mastrategy')  
+                    commission_fee=0.00015)
+ma = MAStrategy('superquant', 
+                 'superquant', 
+                 'mastrategy',  
+                 init_cash=100000, 
+                 init_hold={})
+backtest.add_strategy(ma)  
+backtest.start_market()
+
+backtest.run()
+backtest.stop()
+
+
 #backtest.account
 #
 #def run_minbacktest():

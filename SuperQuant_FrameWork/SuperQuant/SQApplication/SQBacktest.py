@@ -77,7 +77,7 @@ class SQ_Backtest():
 
         self.frequence = frequence
         self.broker = SQ_BacktestBroker(if_nondatabase)   # neededit, 存在歧义， commission_fee显然不是SQ_BacktestBroker的初始化条件
-        self.broker_name = 'backtest_broker'
+        self.broker_name = BROKER_TYPE.BACKETEST
 
         self.start = start
         self.end = end
@@ -137,25 +137,21 @@ class SQ_Backtest():
         else:
             SQ_util_log_info("{} 的市场类型没有实现！".format(market_type))
 
-    def _generate_account(self):
+    def _generate_account(self,username = None, password = None,user_cookie = None,portfolio_cookie = None):
         """
         generate a simple account
         """
+        self.user = SQ_User(user_cookie = user_cookie,username = username,password = password)
+        self.portfolio = SQ_Portfolio(portfolio_cookie = portfolio_cookie)
         self.account = self.portfolio.new_account()
-        self.market.login(
-            self.broker_name,
-            self.account.account_cookie,
-            self.account
-        )
 
     def load_account(self, account):
         # 通过 broke名字 新建立一个 SQAccount 放在的中 session字典中 session 是 { 'cookie' , SQAccount }
-        self.market.login(
-            self.broker_name,
-            account.account_cookie,
-            account
-        )
+
         self.account = account
+        self.user = SQ_User(user_cookie = self.account.user_cookie)
+        self.portfolio = SQ_Portfolio(portfolio_cookie = self.account.portfolio_cookie)
+
     def start_market(self):
         """
         start the market thread and register backtest broker thread
@@ -167,6 +163,11 @@ class SQ_Backtest():
 
         # 注册 backtest_broker ，并且启动和它关联线程SQThread 存放在 kernels 词典中， { 'broker_name': SQThread }
         self.market.register(self.broker_name, self.broker)
+        self.market.login(
+            self.broker_name,
+            self.account.account_cookie,
+            self.account
+        )
         self.market._sync_orders()
 
     def run(self):

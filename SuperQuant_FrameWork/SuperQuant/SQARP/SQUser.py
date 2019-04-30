@@ -94,8 +94,8 @@ class SQ_User():
         self.phone = phone
         self.level = level
         self.utype = utype
-        self.password = password
-        self.username = username
+        self.password = 'default' if password is None else password
+        self.username = 'default' if username is None else username
         self.wechat_id = wechat_id
 
         if wechat_id is not None:
