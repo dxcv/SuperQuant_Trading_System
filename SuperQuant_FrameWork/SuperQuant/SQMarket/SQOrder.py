@@ -500,6 +500,7 @@ class SQ_Order():
 
 class SQ_OrderQueue():  # also the order tree ？？ what's the tree means?
     """
+    维护一个order_list和一个deal_list
     一个待成交队列
     queue是一个dataframe
     这里面都是对于方法的封装
@@ -633,7 +634,7 @@ class SQ_OrderQueue():  # also the order tree ？？ what's the tree means?
         try:
             if order_id in self.order_ids:
 
-                self.order_list[order_id]._status = new_status  # edit，status不能直接被修改，只能通过修改_status来做到
+                self.order_list[order_id].status = new_status  # edit，status不能直接被修改，只能通过修改_status来做到
             else:
                 pass
         except:

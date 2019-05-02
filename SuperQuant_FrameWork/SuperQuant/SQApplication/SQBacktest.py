@@ -13,6 +13,7 @@ from SuperQuant.SQSetting.SQParameter import (
     AMOUNT_MODEL,
     BROKER_EVENT,
     BROKER_TYPE,
+    BROKER_NAME,
     ENGINE_EVENT,
     FREQUENCE,
     MARKET_TYPE,
@@ -77,7 +78,7 @@ class SQ_Backtest():
 
         self.frequence = frequence
         self.broker = SQ_BacktestBroker(if_nondatabase)   # neededit, 存在歧义， commission_fee显然不是SQ_BacktestBroker的初始化条件
-        self.broker_name = BROKER_TYPE.BACKETEST
+        self.broker_name = BROKER_NAME.BACKETEST
 
         self.start = start
         self.end = end

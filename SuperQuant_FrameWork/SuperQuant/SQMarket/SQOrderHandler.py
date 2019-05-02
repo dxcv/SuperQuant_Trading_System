@@ -68,7 +68,7 @@ class SQ_OrderHandler(SQ_Worker):
             orderhandler.order_queue 插入一个订单
             执行回调
             """
-            order = event.order
+            # order = event.order
             order = event.broker.receive_order(
                 SQ_Event(
                     event_type=BROKER_EVENT.TRADE,

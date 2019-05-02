@@ -35,7 +35,8 @@ from SuperQuant.SQSetting.SQParameter import (
     MARKET_EVENT,
     ORDER_EVENT,
     ORDER_MODEL,
-    RUNNING_ENVIRONMENT
+    RUNNING_ENVIRONMENT,
+    THREAD_NAME
 )
 from SuperQuant.SQUtil.SQRandom import SQ_util_random_with_topic
 
@@ -136,7 +137,7 @@ class SQ_Market(SQ_Trade):
         self.order_handler.run(
             SQ_Event(
                 event_type=BROKER_EVENT.NEXT_TRADEDAY,
-                event_queue=self.trade_engine.kernels_dict['ORDER'].queue
+                event_queue=self.trade_engine.kernels_dict[THREAD_NAME.ORDER].queue
             )
         )
 
@@ -159,8 +160,8 @@ class SQ_Market(SQ_Trade):
         self.if_start_orderthreading = True
 
         self.order_handler.if_start_orderquery = True
-        self.trade_engine.create_kernel('ORDER', daemon=True)
-        self.trade_engine.start_kernel('ORDER')
+        self.trade_engine.create_kernel(THREAD_NAME.ORDER, daemon=True)
+        self.trade_engine.start_kernel(THREAD_NAME.ORDER)
         self.sync_order_and_deal()
         # self._update_orders()
 
@@ -236,7 +237,7 @@ class SQ_Market(SQ_Trade):
 
     def sync_account(self, broker_name, account_cookie):
         """同步账户信息
-
+        若是回测，则不初始化，实盘需要初始化
         Arguments:
             broker_id {[type]} -- [description]
             account_cookie {[type]} -- [description]
@@ -485,7 +486,7 @@ class SQ_Market(SQ_Trade):
         self.order_handler.run(
             SQ_Event(
                 event_type=MARKET_EVENT.QUERY_ORDER,
-                event_queue=self.trade_engine.kernels_dict['ORDER'].queue
+                event_queue=self.trade_engine.kernels_dict[THREAD_NAME.ORDER].queue
             )
         )
 

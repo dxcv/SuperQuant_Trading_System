@@ -31,3 +31,21 @@ from SuperQuant.SQSetting.SQParameter import FREQUENCE, MARKET_TYPE
 
 ax = SQ.SQMarket.SQOrder.SQ_Order()
 ax.to_df()
+
+
+a = [1,2,3,4,5]
+
+import pandas as pd
+import random
+random.randint(1, 2)
+pd.concat(a,axis = 0)
+
+
+a = 1
+if a == 1:
+    print(a)
+    a = 2
+elif a == 2:
+    print(a)
+import QUANTAXIS as QA
+user = QA.QA_User(username='defalut', password='defalut')

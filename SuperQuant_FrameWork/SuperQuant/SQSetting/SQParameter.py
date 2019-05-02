@@ -1,27 +1,4 @@
 # -* coding: utf-8 -*-
-#
-# The MIT License (MIT)
-#
-# Copyright (c) 2016-2018 yutiansut/SuperQuant
-#
-# Permission is hereby granted, free of charge, to any person obtaining a copy
-# of this software and associated documentation files (the "Software"), to deal
-# in the Software without restriction, including without limitation the rights
-# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-# copies of the Software, and to permit persons to whom the Software is
-# furnished to do so, subject to the following conditions:
-#
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
-#
-# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-# SOFTWARE.
-
 
 """
 这里定义的是一些常用常量
@@ -230,6 +207,21 @@ class BROKER_TYPE():
     SHIPANE = 'shipane'
     TTS = 'tts'
 
+class BROKER_NAME():
+    """执行环境名称
+
+    回测
+    模拟
+    实盘
+    随机(按算法/分布随机生成行情)/仅用于训练测试
+    """
+
+    BACKETEST = 'backtest_broker'
+    SIMULATION = 'simulation_broker'
+    REAL = 'real_broker'
+    RANDOM = 'random_broker'
+    SHIPANE = 'shipane_broker'
+    TTS = 'tts'
 
 class EVENT_TYPE():
     """[summary]
@@ -270,7 +262,8 @@ class ENGINE_EVENT():
     BAR_SETTLE = 'bar_settle'
     DAILY_SETTLE = 'daily_settle'
     UPDATE = 'update'
-
+    TRANSACTION = 'transaction'
+    ORDER = 'order'
 
 class ACCOUNT_EVENT():
     """账户事件"""
@@ -434,3 +427,7 @@ class DATABASE_NAME():
     # FUTURE_TRANSACTION = 'future_transaction'
 
     FINANCIAL = 'financial'
+
+class THREAD_NAME():
+    '''线程名'''
+    ORDER = 'ORDER'

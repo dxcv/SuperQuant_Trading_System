@@ -26,8 +26,9 @@ ma = MAStrategy('superquant',
                  'mastrategy',  
                  init_cash=100000, 
                  init_hold={})
-BK.start_market()
 BK.load_account(ma)
+
+BK.start_market()
 
 BK.run()
 BK.stop()
@@ -47,44 +48,44 @@ fig.show()
 #risk.save()
 #%%
 #
-class Backtest(SQ_Backtest):
-    '''
-    多线程模式回测示例
-
-    '''
-
-    def __init__(self, market_type, 
-                 frequence, 
-                 start, 
-                 end, 
-                 code_list, 
-                 commission_fee
-                 ):
-        super().__init__(market_type,  
-                         frequence, 
-                         start, 
-                         end, 
-                         code_list, 
-                         commission_fee
-                         )
-        
-    def add_strategy(self,strategy):
-        self.load_account = (strategy)
-
-    def after_success(self):
-        SQ_util_log_info(self.account.history_table)
-        risk = SQ_Risk(self.account, benchmark_code='000001',
-                       benchmark_type=MARKET_TYPE.INDEX_CN)
-
-        print(risk().T)
-        fig=risk.plot_assets_curve()
-        fig.show()
-        fig=risk.plot_dailyhold()
-        fig.show()
-        fig=risk.plot_signal()
-        fig.show()
-        self.account.save()
-        risk.save()
+#class Backtest(SQ_Backtest):
+#    '''
+#    多线程模式回测示例
+#
+#    '''
+#
+#    def __init__(self, market_type, 
+#                 frequence, 
+#                 start, 
+#                 end, 
+#                 code_list, 
+#                 commission_fee
+#                 ):
+#        super().__init__(market_type,  
+#                         frequence, 
+#                         start, 
+#                         end, 
+#                         code_list, 
+#                         commission_fee
+#                         )
+#        
+#    def add_strategy(self,strategy):
+#        self.load_account = (strategy)
+#
+#    def after_success(self):
+#        SQ_util_log_info(self.account.history_table)
+#        risk = SQ_Risk(self.account, benchmark_code='000001',
+#                       benchmark_type=MARKET_TYPE.INDEX_CN)
+#
+#        print(risk().T)
+#        fig=risk.plot_assets_curve()
+#        fig.show()
+#        fig=risk.plot_dailyhold()
+#        fig.show()
+#        fig=risk.plot_signal()
+#        fig.show()
+#        self.account.save()
+#        risk.save()
 #
 #
 #def run_daybacktest(username,password,portfolio_cookie,account_cookie,strategy):
@@ -106,22 +107,22 @@ class Backtest(SQ_Backtest):
 #    backtest.run()
 #    backtest.stop()
 #%% DEBUG
-backtest = Backtest(market_type=MARKET_TYPE.STOCK_CN,
-                    frequence=FREQUENCE.DAY,
-                    start='2017-01-01',
-                    end='2017-02-10',
-                    code_list=['000001'],#SQ.SQ_fetch_stock_block_adv().code[0:5]
-                    commission_fee=0.00015)
-ma = MAStrategy('superquant', 
-                 'superquant', 
-                 'mastrategy',  
-                 init_cash=100000, 
-                 init_hold={})
-backtest.add_strategy(ma)  
-backtest.start_market()
-
-backtest.run()
-backtest.stop()
+#backtest = Backtest(market_type=MARKET_TYPE.STOCK_CN,
+#                    frequence=FREQUENCE.DAY,
+#                    start='2017-01-01',
+#                    end='2017-02-10',
+#                    code_list=['000001'],#SQ.SQ_fetch_stock_block_adv().code[0:5]
+#                    commission_fee=0.00015)
+#ma = MAStrategy('superquant', 
+#                 'superquant', 
+#                 'mastrategy',  
+#                 init_cash=100000, 
+#                 init_hold={})
+#backtest.add_strategy(ma)  
+#backtest.start_market()
+#
+#backtest.run()
+#backtest.stop()
 
 
 #backtest.account
