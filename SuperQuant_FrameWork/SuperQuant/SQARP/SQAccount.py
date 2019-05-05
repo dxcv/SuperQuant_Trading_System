@@ -1285,7 +1285,7 @@ class SQ_Account(SQ_Worker):
                         flag = False
                         wrong_reason = 'T0交易买入超出限额'
 
-                if self.market_type == MARKET_TYPE.FUTURE_CN:
+                if self.allow_sellopen == True:
                     # 如果有负持仓-- 允许卖空的时候
                     if towards == 3:  # 多平
                         _hold = self.sell_available.get(code, 0)

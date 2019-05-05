@@ -63,6 +63,7 @@ class ORDER_MODEL():
     MARKET = 'MARKET'  # 市价/在回测里是下个bar的开盘价买入/实盘就是五档剩余最优成交价
     CLOSE = 'CLOSE'  # 当前bar的收盘价买入
     NEXT_OPEN = 'NEXT_OPEN'  # 下个bar的开盘价买入
+    NEXT_CLOSE = 'NEXT_CLOSE'
     STRICT = 'STRICT'  # 严格模式/不推荐(仅限回测测试用)
     BEST = 'MARKET' # 中金所  最优成交剩余转限
 

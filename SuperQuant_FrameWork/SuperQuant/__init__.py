@@ -145,6 +145,20 @@ from SuperQuant.SQSetting import market_preset
 from SuperQuant.SQSetting import SQSetting
 from SuperQuant.SQSetting import SQLocalize
 from SuperQuant.SQSetting import SQParameter
+## import SQMarket
+from SuperQuant.SQMarket import SQBacktestBroker
+from SuperQuant.SQMarket import SQBroker
+from SuperQuant.SQMarket import SQDealer
+from SuperQuant.SQMarket import SQMarket
+from SuperQuant.SQMarket import SQOrder
+from SuperQuant.SQMarket import SQOrderHandler
+from SuperQuant.SQMarket import SQRandomBroker
+from SuperQuant.SQMarket import SQRealBroker
+from SuperQuant.SQMarket import SQShipaneBroker
+from SuperQuant.SQMarket import SQSimulatedBroker
+from SuperQuant.SQMarket import SQTrade
+from SuperQuant.SQMarket import SQTTSBroker
+
 ## import SQSU
 from SuperQuant.SQSU import save_tdx
 from SuperQuant.SQSU import save_account
